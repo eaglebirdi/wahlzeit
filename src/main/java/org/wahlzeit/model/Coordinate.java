@@ -1,11 +1,5 @@
 package org.wahlzeit.model;
 
-import java.sql.*;
-import java.net.*;
-
-import org.wahlzeit.services.*;
-import org.wahlzeit.utils.*;
-
 /**
  * A coordinate represents the coordinates of a position.
  */
@@ -18,5 +12,29 @@ public class Coordinate {
 		this.x = x;
 		this.y = y;
 		this.z = z;
+	}
+	
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public double getX() {
+		return this.x;
+	}
+	
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public double getY() {
+		return this.y;
+	}
+	
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public double getZ() {
+		return this.z;
 	}
 }

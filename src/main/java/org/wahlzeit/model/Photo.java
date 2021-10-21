@@ -88,6 +88,11 @@ public class Photo extends DataObject {
 	 * 
 	 */
 	protected long creationTime = System.currentTimeMillis();
+
+	/**
+	 * 
+	 */
+	protected Location location;
 	
 	/**
 	 * 
@@ -463,4 +468,19 @@ public class Photo extends DataObject {
 		return creationTime;
 	}
 	
+	/**
+	 * 
+	 * @methodtype get
+	 */
+	public Location getLocation() {
+		return this.location;
+	}
+
+	/**
+	 * 
+	 * @methodtype set
+	 */
+	public void setLocation(Location location) {
+		this.location = location;
+	}
 }
