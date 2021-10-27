@@ -9,6 +9,10 @@ public class Location {
 	protected Coordinate coordinate;
 	
 	public Location(Coordinate coordinate) {
+		if (coordinate == null){
+			throw new IllegalArgumentException("coordinate must not be null.");
+		} 
+
 		this.coordinate = coordinate;
 	}
 
