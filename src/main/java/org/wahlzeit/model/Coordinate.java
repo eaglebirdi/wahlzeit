@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.sql.*;
+
 /**
  * A coordinate represents the coordinates of a position.
  */
@@ -13,7 +15,7 @@ public class Coordinate {
 		this.y = y;
 		this.z = z;
 	}
-	
+
 	/**
 	 * 
 	 * @methodtype get
@@ -36,5 +38,14 @@ public class Coordinate {
 	 */
 	public double getZ() {
 		return this.z;
+	}
+
+	/**
+	 * 
+	 */
+	public void writeOn(ResultSet rset) throws SQLException {
+		rset.updateDouble("coordinate_x", this.x);
+		rset.updateDouble("coordinate_y", this.y);
+		rset.updateDouble("coordinate_z", this.z);
 	}
 }
