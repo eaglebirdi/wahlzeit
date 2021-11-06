@@ -18,10 +18,10 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void testGetDistance() {
-		assertEquals(5.0990195, new Coordinate(1.0, 2.0, 3.0).getDistance(new Coordinate(2.0, 5.0, -1.0)), EPSILON);
-		assertEquals(1.0, new Coordinate(0.0, 0.0, 0.0).getDistance(new Coordinate(-1.0, 0.0, 0.0)), EPSILON);
-		assertEquals(1.4142136, new Coordinate(-1.0, -2.0, 0.0).getDistance(new Coordinate(0.0, -3.0, 0.0)), EPSILON);
-		assertEquals(0.0, new Coordinate(1.0, 2.0, 3.0).getDistance(new Coordinate(1.0, 2.0, 3.0)), EPSILON);
+		assertEquals(5.0990195, new CartesianCoordinate(1.0, 2.0, 3.0).getDistance(new CartesianCoordinate(2.0, 5.0, -1.0)), EPSILON);
+		assertEquals(1.0, new CartesianCoordinate(0.0, 0.0, 0.0).getDistance(new CartesianCoordinate(-1.0, 0.0, 0.0)), EPSILON);
+		assertEquals(1.4142136, new CartesianCoordinate(-1.0, -2.0, 0.0).getDistance(new CartesianCoordinate(0.0, -3.0, 0.0)), EPSILON);
+		assertEquals(0.0, new CartesianCoordinate(1.0, 2.0, 3.0).getDistance(new CartesianCoordinate(1.0, 2.0, 3.0)), EPSILON);
 	}
 
 	/**
@@ -29,10 +29,10 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void testIsEqual() {
-		assertTrue(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0, 2.0, 3.0)));
-		assertFalse(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0, 2.0, 4.0)));
-		assertTrue(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0 + SUBEPSILON, 2.0 + SUBEPSILON, 3.0 + SUBEPSILON)));
-		assertFalse(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0 + EPSILON, 2.0 + EPSILON, 3.0 + EPSILON)));
+		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 3.0)));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 4.0)));
+		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0 + SUBEPSILON, 2.0 + SUBEPSILON, 3.0 + SUBEPSILON)));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0 + EPSILON, 2.0 + EPSILON, 3.0 + EPSILON)));
 	}
 
 	/**
@@ -40,9 +40,9 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void testEquals() {
-		assertFalse(new Coordinate(1.0, 2.0, 3.0).equals(null));
-		assertFalse(new Coordinate(1.0, 2.0, 3.0).equals(new Object()));
-		assertFalse(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0, 2.0, 4.0)));
-		assertTrue(new Coordinate(1.0, 2.0, 3.0).isEqual(new Coordinate(1.0, 2.0, 3.0)));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(null));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new Object()));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 4.0)));
+		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 3.0)));
 	}
 }

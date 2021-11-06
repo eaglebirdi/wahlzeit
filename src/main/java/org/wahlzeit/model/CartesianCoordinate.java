@@ -5,12 +5,12 @@ import java.sql.*;
 /**
  * A coordinate represents the coordinates of a position.
  */
-public class Coordinate {
+public class CartesianCoordinate {
 	protected double x;
 	protected double y;
 	protected double z;
 	
-	public Coordinate(double x, double y, double z) {
+	public CartesianCoordinate(double x, double y, double z) {
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -49,7 +49,7 @@ public class Coordinate {
 		rset.updateDouble("coordinate_z", this.z);
 	}
 
-	public double getDistance(Coordinate other) {
+	public double getDistance(CartesianCoordinate other) {
 		double diffX = this.x - other.x;
 		double diffY = this.y - other.y;
 		double diffZ = this.z - other.z;
@@ -58,7 +58,7 @@ public class Coordinate {
 		return sqrt;
 	}
 
-	public boolean isEqual(Coordinate other) {
+	public boolean isEqual(CartesianCoordinate other) {
 		final double EPSILON = 0.0001;
 		double diffX = Math.abs(this.x - other.x);
 		double diffY = Math.abs(this.y - other.y);
@@ -76,7 +76,7 @@ public class Coordinate {
 			return false;
 		}
 
-		Coordinate other = (Coordinate) obj;
+		CartesianCoordinate other = (CartesianCoordinate) obj;
 		return this.isEqual(other);
 	}	
 }
