@@ -7,9 +7,9 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 /**
- * All test cases of the class {@link Coordinate}.
+ * All test cases of the class {@link CartesianCoordinate}.
  */
-public class CoordinateTest {
+public class CartesianCoordinateTest {
 	private static final double EPSILON = 0.0001;
 	private static final double SUBEPSILON = EPSILON * 0.9;
 
