@@ -40,15 +40,15 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testGetCentralAngle() {
+	public void testGetAngleTo() {
 		SphericCoordinate sphericCoordinate1 = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate sphericCoordinate2 = new SphericCoordinate(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
-		double result1 = sphericCoordinate1.getCentralAngle(sphericCoordinate2);
+		double result1 = sphericCoordinate1.getAngleTo(sphericCoordinate2);
 		assertEquals(1.23370728859045, result1, EPSILON);
 
-		CartesianCoordinate cartesianCoordinate1 = new CartesianCoordinate(0, 1, 1);
-		CartesianCoordinate cartesianCoordinate2 = new CartesianCoordinate(0, 1, 0);
-		double result2 = cartesianCoordinate1.getCentralAngle(cartesianCoordinate2);
+		SphericCoordinate cartesianCoordinate1 = new CartesianCoordinate(0, 1, 1).asSphericCoordinate();
+		SphericCoordinate cartesianCoordinate2 = new CartesianCoordinate(0, 1, 0).asSphericCoordinate();
+		double result2 = cartesianCoordinate1.getAngleTo(cartesianCoordinate2);
 		assertEquals(Math.PI / 4, result2, EPSILON);
 	}
 
