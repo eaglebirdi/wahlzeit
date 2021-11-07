@@ -6,7 +6,7 @@ import org.wahlzeit.services.*;
 /**
  * A cartesian coordinate represents a position which is defined by the three values x, y and z in an orthogonal coordinate system.
  */
-public class CartesianCoordinate implements Coordinate {
+public class CartesianCoordinate extends AbstractCoordinate {
 	private static final CartesianCoordinate ORIGIN = new CartesianCoordinate(0, 0, 0);
 
 	protected double x;
@@ -43,15 +43,12 @@ public class CartesianCoordinate implements Coordinate {
 		return this.z;
 	}
 
+	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
 		return new CartesianCoordinate(this.x, this.y, this.z);
 	}
 
-	public double getCartesianDistance(Coordinate other) {
-		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
-		return this.getDistance(otherCartesian);
-	}
-
+	@Override
 	public SphericCoordinate asSphericCoordinate() {
 		double radius = ORIGIN.getDistance(this);
 		double theta = Math.atan2(this.y, this.x);
@@ -59,11 +56,7 @@ public class CartesianCoordinate implements Coordinate {
 		return new SphericCoordinate(radius, theta, phi);
 	}
 
-	public double getCentralAngle(Coordinate other) {
-		SphericCoordinate thisSpheric = this.asSphericCoordinate();
-		return thisSpheric.getCentralAngle(other);
-	}
-
+	@Override
 	public boolean isEqual(Coordinate other) {
 		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
 		return this.isEqual(otherCartesian);
@@ -87,7 +80,7 @@ public class CartesianCoordinate implements Coordinate {
 		rset.updateDouble("coordinate_z", this.z);
 	}
 
-	private double getDistance(CartesianCoordinate other) {
+	public double getDistance(CartesianCoordinate other) {
 		double diffX = this.x - other.x;
 		double diffY = this.y - other.y;
 		double diffZ = this.z - other.z;
