@@ -1,6 +1,7 @@
 package org.wahlzeit.model;
 
 import java.sql.*;
+import java.util.*;
 
 /**
  * A coordinate represents the coordinates of a position.
@@ -67,6 +68,7 @@ public class Coordinate {
 		return diffX < EPSILON && diffY < EPSILON && diffZ < EPSILON;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -78,5 +80,10 @@ public class Coordinate {
 
 		Coordinate other = (Coordinate) obj;
 		return this.isEqual(other);
-	}	
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.x, this.y, this.z);
+	}
 }
