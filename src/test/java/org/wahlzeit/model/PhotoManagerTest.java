@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 
 /**
- * All test cases of the class {@link PhotoManagerTest}.
+ * All test cases of the class {@link PhotoManager}.
  */
 public class PhotoManagerTest {
 	/**
