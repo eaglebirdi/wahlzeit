@@ -95,8 +95,8 @@ public class SphericCoordinateTest {
 	public void testEquals() {
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(null));
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new Object()));
-		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).isEqual(new SphericCoordinate(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).isEqual(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).isEqual(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).asCartesianCoordinate()));
+		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
+		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI)));
+		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).asCartesianCoordinate()));
 	}
 }
