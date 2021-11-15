@@ -1,6 +1,8 @@
 package org.wahlzeit.model;
 
 import java.sql.*;
+import java.util.*;
+
 import org.wahlzeit.services.*;
 
 /**
@@ -96,6 +98,7 @@ public class CartesianCoordinate implements Coordinate {
 		return sqrt;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -107,5 +110,10 @@ public class CartesianCoordinate implements Coordinate {
 
 		Coordinate other = (Coordinate) obj;
 		return this.isEqual(other);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.x, this.y, this.z);
 	}
 }

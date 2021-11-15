@@ -1,5 +1,7 @@
 package org.wahlzeit.model;
 
+import java.util.*;
+
 import org.wahlzeit.services.*;
 
 /**
@@ -90,6 +92,7 @@ public class SphericCoordinate implements Coordinate {
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj == null) {
 			return false;
@@ -101,5 +104,10 @@ public class SphericCoordinate implements Coordinate {
 
 		Coordinate other = (Coordinate) obj;
 		return this.isEqual(other);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(this.radius, this.theta, this.phi);
 	}
 }
