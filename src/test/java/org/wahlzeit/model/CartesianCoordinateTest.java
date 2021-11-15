@@ -51,6 +51,22 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
+	public void testGetCentralAngle() {
+		CartesianCoordinate coordinate1 = new CartesianCoordinate(1, 2, 3);
+
+		CartesianCoordinate coordinate2Cartesian = new CartesianCoordinate(2, 0, -3);
+		double result1 = coordinate1.getCentralAngle(coordinate2Cartesian);
+		assertEquals(1.53764057521456, result1, EPSILON);
+
+		SphericCoordinate coordinate2Spheric = coordinate2Cartesian.asSphericCoordinate();
+		double result2 = coordinate1.getCentralAngle(coordinate2Spheric);
+		assertEquals(1.53764057521456, result2, EPSILON);
+	}
+
+	/**
+	 *
+	 */
+	@Test
 	public void testIsEqual() {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1.0, 2.0, 3.0);
 		CartesianCoordinate other = new CartesianCoordinate(2.0, 5.0, -1.0);

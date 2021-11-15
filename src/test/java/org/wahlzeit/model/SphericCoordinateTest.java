@@ -26,6 +26,22 @@ public class SphericCoordinateTest {
 	}
 
 	/**
+	 * 
+	 */
+	@Test
+	public void testGetCartesianDistance() {
+		SphericCoordinate coordinate1 = new SphericCoordinate(1, 45.0/180*Math.PI, 15.0/180*Math.PI);
+
+		SphericCoordinate coordinate2Spheric = new SphericCoordinate(2, 30.0/180*Math.PI, 60.0/180*Math.PI);
+		double result1 = coordinate1.getCartesianDistance(coordinate2Spheric);
+		assertEquals(1.483955169, result1, EPSILON);
+
+		CartesianCoordinate coordinate2Cartesian = coordinate2Spheric.asCartesianCoordinate();
+		double result2 = coordinate1.getCartesianDistance(coordinate2Cartesian);
+		assertEquals(1.483955169, result2, EPSILON);
+	}
+
+	/**
 	 *
 	 */
 	@Test
