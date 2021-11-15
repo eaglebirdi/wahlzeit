@@ -32,6 +32,7 @@ public abstract class ModelMain extends AbstractMain {
  		loadGlobals();
 
 		PhotoFactory.initialize();
+		BicyclePhotoFactory.initialize();
 	}
 	
 	/**
