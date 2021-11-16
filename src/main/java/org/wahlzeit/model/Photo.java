@@ -159,7 +159,7 @@ public class Photo extends DataObject {
 		if (!rset.wasNull()) {
 			double coordinateY = rset.getDouble("coordinate_y");
 			double coordinateZ = rset.getDouble("coordinate_z");
-			this.location = new Location(new Coordinate(coordinateX, coordinateY, coordinateZ));
+			this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
 		}
 	}
 	

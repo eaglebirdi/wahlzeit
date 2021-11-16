@@ -13,7 +13,7 @@ public class LocationTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorPassNullCoordinate() {
-		Coordinate coordinate = null;
+		CartesianCoordinate coordinate = null;
 		new Location(coordinate);
 	}
 
@@ -22,7 +22,7 @@ public class LocationTest {
 	 */
 	@Test
 	public void testConstructorPassNotNullCoordinate() {
-		Coordinate coordinate = new Coordinate(0.0, 0.0, 0.0);
+		CartesianCoordinate coordinate = new CartesianCoordinate(0.0, 0.0, 0.0);
 		Location location = new Location(coordinate);
 		assertSame(coordinate, location.getCoordinate());
 	}

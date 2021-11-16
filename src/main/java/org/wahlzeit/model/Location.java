@@ -6,9 +6,9 @@ import java.sql.*;
  * A location represents the local position of a photo.
  */
 public class Location {
-	protected Coordinate coordinate;
+	protected CartesianCoordinate coordinate;
 	
-	public Location(Coordinate coordinate) {
+	public Location(CartesianCoordinate coordinate) {
 		if (coordinate == null){
 			throw new IllegalArgumentException("coordinate must not be null.");
 		} 
@@ -20,7 +20,7 @@ public class Location {
 	 * 
 	 * @methodtype get
 	 */
-	public Coordinate getCoordinate() {
+	public CartesianCoordinate getCoordinate() {
 		return this.coordinate;
 	}
 
