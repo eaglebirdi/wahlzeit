@@ -6,7 +6,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected AbstractCoordinate() {
 	}
 
-	protected abstract void assertClassInvariants();
+	protected abstract void assertClassInvariants() throws IllegalStateException;
 
 	protected abstract CartesianCoordinate doAsCartesianCoordinate();
 	protected abstract SphericCoordinate doAsSphericCoordinate();
@@ -57,7 +57,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double angle = thisSpheric.getAngleTo(otherSpheric);
 
 		this.assertArgumentIsNotNaN(angle);
-		this.assertAngleIsInRange(angle);
+		this.assertArgumentIsInAngleRange(angle);
 		this.assertClassInvariants();
 
 		return angle;
@@ -74,25 +74,25 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return equal;
 	}
 
-	protected void assertArgumentIsNotNull(Coordinate coordinate) {
+	protected void assertArgumentIsNotNull(Coordinate coordinate) throws IllegalArgumentException {
 		if (coordinate == null) {
 			throw new IllegalArgumentException("coordinate must not be null.");
 		}
 	}
 	
-	protected void assertArgumentIsNotNaN(double value) {
+	protected void assertArgumentIsNotNaN(double value) throws IllegalArgumentException {
 		if (Double.isNaN(value)) {
 			throw new IllegalArgumentException("value must not be NaN.");
 		}
 	}
 
-	protected void assertAngleIsInRange(double angle) {
-		if (angle > Math.PI) {
-			throw new IllegalArgumentException("angle must not be greater than PI.");
+	protected void assertArgumentIsInAngleRange(double angle) throws IllegalArgumentException {
+		if (!isAngleInRange(angle)) {
+			throw new IllegalArgumentException("angle must be between minus PI and PI.");
 		}
+	}
 
-		if (angle < -Math.PI) {
-			throw new IllegalArgumentException("angle must be greater than minus PI.");
-		}
+	protected static boolean isAngleInRange(double angle) {
+		return angle <= Math.PI && angle > -Math.PI;
 	}
 }
