@@ -46,12 +46,20 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		return new CartesianCoordinate(this.x, this.y, this.z);
+	protected void assertClassInvariants() {
+		this.assertArgumentIsNotNaN(this.x);
+		this.assertArgumentIsNotNaN(this.y);;
+		this.assertArgumentIsNotNaN(this.z);
 	}
 
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	protected CartesianCoordinate doAsCartesianCoordinate() {
+		CartesianCoordinate cartesian = new CartesianCoordinate(this.x, this.y, this.z);
+		return cartesian;
+	}
+
+	@Override
+	protected SphericCoordinate doAsSphericCoordinate() {
 		double radius = ORIGIN.getDistance(this);
 		double theta = Math.atan2(this.y, this.x);
 		double phi = Math.acos(this.z / radius);
@@ -59,7 +67,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) {
 		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
 		return this.isEqual(otherCartesian);
 	}

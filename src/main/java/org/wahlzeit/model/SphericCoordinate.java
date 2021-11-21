@@ -54,7 +54,16 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	protected void assertClassInvariants() {
+		this.assertArgumentIsNotNaN(this.radius);
+		this.assertArgumentIsNotNaN(this.theta);
+		this.assertAngleIsInRange(this.theta);
+		this.assertArgumentIsNotNaN(this.phi);
+		this.assertAngleIsInRange(this.phi);
+	}
+
+	@Override
+	protected CartesianCoordinate doAsCartesianCoordinate() {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
 		}
@@ -66,12 +75,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() {
 		return new SphericCoordinate(this.radius, this.theta, this.phi);
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) {
 		SphericCoordinate otherSpheric = other.asSphericCoordinate();
 		return this.isEqual(otherSpheric);
 	}
