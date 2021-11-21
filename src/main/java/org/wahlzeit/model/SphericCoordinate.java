@@ -7,7 +7,7 @@ import org.wahlzeit.services.*;
 /**
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
  */
-public class SphericCoordinate implements Coordinate {
+public class SphericCoordinate extends AbstractCoordinate {
 	/**
 	 * Radial distance
 	 */
