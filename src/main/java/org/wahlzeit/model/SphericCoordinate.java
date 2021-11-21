@@ -53,6 +53,7 @@ public class SphericCoordinate implements Coordinate {
 		return this.phi;
 	}
 
+	@Override
 	public CartesianCoordinate asCartesianCoordinate() {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
@@ -64,20 +65,12 @@ public class SphericCoordinate implements Coordinate {
 		return new CartesianCoordinate(x, y, z);
 	}
 
-	public double getCartesianDistance(Coordinate other) {
-		CartesianCoordinate thisCartesian = this.asCartesianCoordinate();
-		return thisCartesian.getCartesianDistance(other);
-	}
-
+	@Override
 	public SphericCoordinate asSphericCoordinate() {
 		return new SphericCoordinate(this.radius, this.theta, this.phi);
 	}
 
-	public double getCentralAngle(Coordinate other) {
-		SphericCoordinate otherSpheric = other.asSphericCoordinate();
-		return Math.acos(Math.sin(this.phi) * Math.sin(otherSpheric.phi) + Math.cos(this.phi) * Math.cos(otherSpheric.phi) * Math.cos(this.theta - otherSpheric.theta));
-	}
-
+	@Override
 	public boolean isEqual(Coordinate other) {
 		SphericCoordinate otherSpheric = other.asSphericCoordinate();
 		return this.isEqual(otherSpheric);
@@ -91,6 +84,10 @@ public class SphericCoordinate implements Coordinate {
 
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
+
+	public double getAngleTo(SphericCoordinate other) {
+		return Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
+	} 
 
 	@Override
 	public boolean equals(Object obj) {
