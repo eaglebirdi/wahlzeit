@@ -78,6 +78,9 @@ public class SphericCoordinate extends AbstractCoordinate {
 		if (radius < 0) {
 			return "radius must not be negative.";
 		}
+		if (Double.isNaN(radius)) {
+			return "radius must not be NaN.";
+		}
 		if (Double.isNaN(theta)) {
 			return "theta must not be NaN.";
 		}

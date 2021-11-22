@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -98,5 +99,27 @@ public class SphericCoordinateTest {
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
 		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI)));
 		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).asCartesianCoordinate()));
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testConstructorAssertions() {
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(Double.NaN, 2, 3); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(1, Double.NaN, 3); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(1, 2, Double.NaN); });
+		new CartesianCoordinate(1, 2, 3); // no exception is thrown
+	}
+
+	/**
+	 * 
+	*/
+	@Test
+	public void testGetDistanceAssertions() {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getDistance(null); });
+		coordinate.getDistance(coordinate); // no exception is thrown
 	}
 }

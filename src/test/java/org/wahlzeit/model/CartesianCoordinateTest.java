@@ -1,5 +1,6 @@
 package org.wahlzeit.model;
 
+import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -93,5 +94,33 @@ public class CartesianCoordinateTest {
 		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new CartesianCoordinate(1.0, 2.0, 4.0)));
 		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new CartesianCoordinate(1.0, 2.0, 3.0)));
 		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new CartesianCoordinate(1.0, 2.0, 3.0).asSphericCoordinate()));
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testConstructorAssertions() {
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(Double.NaN, Math.PI, Math.PI); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Double.NaN, Math.PI); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, Double.NaN); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI + 0.01, Math.PI); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, Math.PI + 0.01); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, -Math.PI - 0.01, Math.PI); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, -Math.PI - 0.01); });
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, 0, 0); });
+		new SphericCoordinate(0, 0, 0); // no exception is thrown
+		new SphericCoordinate(1, 2, 3); // no exception is thrown
+	}
+
+	/**
+	 * 
+	*/
+	@Test
+	public void testGetAngleToAssertions() {
+		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
+
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getAngleTo(null); });
+		coordinate.getAngleTo(coordinate); // no exception is thrown
 	}
 }
