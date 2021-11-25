@@ -54,7 +54,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
 		}
@@ -85,7 +85,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
 
-	public double getAngleTo(SphericCoordinate other) {
+	public double getAngleTo(SphericCoordinate other) throws ArithmeticException {
 		return Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
 	} 
 
