@@ -15,7 +15,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	protected double y;
 	protected double z;
 
-	public CartesianCoordinate(double x, double y, double z) {
+	public CartesianCoordinate(double x, double y, double z) throws IllegalStateException, IllegalArgumentException {
 		this.assertValidArguments(x, y, z);
 
 		this.x = x;
@@ -109,7 +109,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, IllegalStateException, IllegalArgumentException {
 		this.assertClassInvariants();
 		if (rset == null) {
 			throw new IllegalArgumentException("rset must not be null.");
@@ -122,7 +122,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.assertClassInvariants();
 	}
 
-	public double getDistance(CartesianCoordinate other) throws ArithmeticException {
+	public double getDistance(CartesianCoordinate other) throws ArithmeticException, IllegalStateException, IllegalArgumentException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
