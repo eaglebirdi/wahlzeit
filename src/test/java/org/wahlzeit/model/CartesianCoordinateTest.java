@@ -29,11 +29,11 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testGetCartesianDistance() {
-		assertEquals(5.0990195, new CartesianCoordinate(1.0, 2.0, 3.0).getCartesianDistance(new CartesianCoordinate(2.0, 5.0, -1.0)), EPSILON);
-		assertEquals(1.0, new CartesianCoordinate(0.0, 0.0, 0.0).getCartesianDistance(new CartesianCoordinate(-1.0, 0.0, 0.0)), EPSILON);
-		assertEquals(1.4142136, new CartesianCoordinate(-1.0, -2.0, 0.0).getCartesianDistance(new CartesianCoordinate(0.0, -3.0, 0.0)), EPSILON);
-		assertEquals(0.0, new CartesianCoordinate(1.0, 2.0, 3.0).getCartesianDistance(new CartesianCoordinate(1.0, 2.0, 3.0)), EPSILON);
+	public void testGetDistance() {
+		assertEquals(5.0990195, new CartesianCoordinate(1.0, 2.0, 3.0).getDistance(new CartesianCoordinate(2.0, 5.0, -1.0)), EPSILON);
+		assertEquals(1.0, new CartesianCoordinate(0.0, 0.0, 0.0).getDistance(new CartesianCoordinate(-1.0, 0.0, 0.0)), EPSILON);
+		assertEquals(1.4142136, new CartesianCoordinate(-1.0, -2.0, 0.0).getDistance(new CartesianCoordinate(0.0, -3.0, 0.0)), EPSILON);
+		assertEquals(0.0, new CartesianCoordinate(1.0, 2.0, 3.0).getDistance(new CartesianCoordinate(1.0, 2.0, 3.0)), EPSILON);
 	}
 
 	/**
