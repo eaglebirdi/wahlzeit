@@ -84,7 +84,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected SphericCoordinate doAsSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() throws ArithmeticException {
 		double radius = ORIGIN.getDistance(this);
 		double theta = Math.atan2(this.y, this.x);
 		double phi = Math.acos(this.z / radius);
@@ -122,7 +122,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.assertClassInvariants();
 	}
 
-	public double getDistance(CartesianCoordinate other) {
+	public double getDistance(CartesianCoordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 

@@ -100,7 +100,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected CartesianCoordinate doAsCartesianCoordinate() {
+	protected CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
 		}
@@ -131,7 +131,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
 
-	public double getAngleTo(SphericCoordinate other) {
+	public double getAngleTo(SphericCoordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 

@@ -8,11 +8,11 @@ public abstract class AbstractCoordinate implements Coordinate {
 
 	protected abstract void assertClassInvariants() throws IllegalStateException;
 
-	protected abstract CartesianCoordinate doAsCartesianCoordinate();
-	protected abstract SphericCoordinate doAsSphericCoordinate();
+	protected abstract CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException;
+	protected abstract SphericCoordinate doAsSphericCoordinate() throws ArithmeticException;
 	protected abstract boolean doIsEqual(Coordinate other);
 
-	public CartesianCoordinate asCartesianCoordinate() {
+	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException {
 		this.assertClassInvariants();
 
 		CartesianCoordinate cartesian = this.doAsCartesianCoordinate();
@@ -23,7 +23,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return cartesian;
 	}
 
-	public double getCartesianDistance(Coordinate other) {
+	public double getCartesianDistance(Coordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -37,7 +37,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return distance;
 	}
 
-	public SphericCoordinate asSphericCoordinate() {
+	public SphericCoordinate asSphericCoordinate() throws ArithmeticException {
 		this.assertClassInvariants();
 
 		SphericCoordinate spheric = this.doAsSphericCoordinate();
@@ -48,7 +48,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return spheric;
 	}
 
-	public double getCentralAngle(Coordinate other) {
+	public double getCentralAngle(Coordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
