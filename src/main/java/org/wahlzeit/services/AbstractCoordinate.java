@@ -32,6 +32,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		double distance = thisCartesian.getDistance(otherCartesian);
 
 		this.assertArgumentIsNotNaN(distance);
+		this.assertArgumentIsNotNegative(distance);
 		this.assertClassInvariants();
 
 		return distance;
@@ -83,6 +84,12 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected void assertArgumentIsNotNaN(double value) throws IllegalArgumentException {
 		if (Double.isNaN(value)) {
 			throw new IllegalArgumentException("value must not be NaN.");
+		}
+	}
+
+	protected void assertArgumentIsNotNegative(double value) throws IllegalArgumentException {
+		if (value < 0) {
+			throw new IllegalArgumentException("value must not be negative.");
 		}
 	}
 

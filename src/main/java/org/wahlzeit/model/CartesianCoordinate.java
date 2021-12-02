@@ -133,6 +133,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		double sqrt = Math.sqrt(sum);
 
 		this.assertArgumentIsNotNaN(sqrt);
+		this.assertArgumentIsNotNegative(sqrt);
 		this.assertClassInvariants();
 
 		return sqrt;
