@@ -12,7 +12,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected abstract SphericCoordinate doAsSphericCoordinate() throws ArithmeticException;
 	protected abstract boolean doIsEqual(Coordinate other);
 
-	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException, IllegalStateException, IllegalArgumentException {
+	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException {
 		this.assertClassInvariants();
 
 		CartesianCoordinate cartesian = this.doAsCartesianCoordinate();
@@ -23,7 +23,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return cartesian;
 	}
 
-	public double getCartesianDistance(Coordinate other) throws ArithmeticException, IllegalStateException, IllegalArgumentException {
+	public double getCartesianDistance(Coordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -37,7 +37,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return distance;
 	}
 
-	public SphericCoordinate asSphericCoordinate() throws ArithmeticException, IllegalStateException, IllegalArgumentException {
+	public SphericCoordinate asSphericCoordinate() throws ArithmeticException {
 		this.assertClassInvariants();
 
 		SphericCoordinate spheric = this.doAsSphericCoordinate();
@@ -48,7 +48,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return spheric;
 	}
 
-	public double getCentralAngle(Coordinate other) throws ArithmeticException, IllegalStateException, IllegalArgumentException {
+	public double getCentralAngle(Coordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -63,7 +63,7 @@ public abstract class AbstractCoordinate implements Coordinate {
 		return angle;
 	}
 
-	public boolean isEqual(Coordinate other) throws IllegalStateException, IllegalArgumentException {
+	public boolean isEqual(Coordinate other) {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 

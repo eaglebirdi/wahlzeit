@@ -23,7 +23,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 */
 	private double phi;
 
-	public SphericCoordinate(double radius, double theta, double phi) throws IllegalStateException, IllegalArgumentException {
+	public SphericCoordinate(double radius, double theta, double phi) {
 		this.assertValidArguments(radius, theta, phi);
 
 		this.radius = radius;
@@ -130,7 +130,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
 
-	public double getAngleTo(SphericCoordinate other) throws ArithmeticException, IllegalStateException, IllegalArgumentException {
+	public double getAngleTo(SphericCoordinate other) throws ArithmeticException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
