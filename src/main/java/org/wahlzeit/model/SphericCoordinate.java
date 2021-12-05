@@ -24,9 +24,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 	private double phi;
 
 	public SphericCoordinate(double radius, double theta, double phi) {
+		this.assertValidArguments(radius, theta, phi);
+
 		this.radius = radius;
 		this.theta = theta;
 		this.phi = phi;
+
+		this.assertClassInvariants();
 	}
 
 	/**
@@ -54,7 +58,48 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException {
+	protected void assertClassInvariants() throws IllegalStateException {
+		String validationErrorMessage = getValidationErrorMessage(this.radius, this.theta, this.phi);
+		if (validationErrorMessage != null) {
+			throw new IllegalStateException(validationErrorMessage);
+		}
+	}
+	
+	protected void assertValidArguments(double radius, double theta, double phi) throws IllegalArgumentException {
+		String validationErrorMessage = getValidationErrorMessage(radius, theta, phi);
+		if (validationErrorMessage != null) {
+			throw new IllegalArgumentException(validationErrorMessage);
+		}
+	}
+	
+	private String getValidationErrorMessage(double radius, double theta, double phi) {
+		final double EPSILON = 0.0001;
+		if (radius < 0) {
+			return "radius must not be negative.";
+		}
+		if (Double.isNaN(radius)) {
+			return "radius must not be NaN.";
+		}
+		if (Double.isNaN(theta)) {
+			return "theta must not be NaN.";
+		}
+		if (Double.isNaN(phi)) {
+			return "phi must not be NaN.";
+		}
+		if (!isAngleInRange(theta)) {
+			return "theta must be between minus PI and PI.";
+		}
+		if (!isAngleInRange(phi)) {
+			return "phi must be between minus PI and PI.";
+		}
+		if (Math.abs(theta) < EPSILON && Math.abs(phi) < EPSILON && radius > EPSILON) {
+			return "theta and phi must not be zero at the same time given radius is not zero.";
+		}
+		return null;
+	}
+
+	@Override
+	protected CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
 		}
@@ -66,12 +111,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public SphericCoordinate asSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() {
 		return new SphericCoordinate(this.radius, this.theta, this.phi);
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) {
 		SphericCoordinate otherSpheric = other.asSphericCoordinate();
 		return this.isEqual(otherSpheric);
 	}
@@ -86,7 +131,16 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	public double getAngleTo(SphericCoordinate other) throws ArithmeticException {
-		return Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
+		this.assertClassInvariants();
+		this.assertArgumentIsNotNull(other);
+
+		double angle = Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
+
+		this.assertArgumentIsNotNaN(angle);
+		this.assertArgumentIsInAngleRange(angle);
+		this.assertClassInvariants();
+
+		return angle;
 	} 
 
 	@Override

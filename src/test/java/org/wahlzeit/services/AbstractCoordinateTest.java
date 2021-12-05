@@ -1,5 +1,6 @@
 package org.wahlzeit.services;
 
+import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 import org.wahlzeit.model.CartesianCoordinate;
 
@@ -44,5 +45,27 @@ public class AbstractCoordinateTest {
 		assertEquals(expected, spheric2.getCentralAngle(cartesian1), EPSILON);
 		assertEquals(expected, spheric1.getCentralAngle(spheric2), EPSILON);
 		assertEquals(expected, spheric2.getCentralAngle(spheric1), EPSILON);
+	}
+
+	/**
+	 * 
+	 */
+	@Test
+	public void testGetCartesianDistanceAssertions() {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getCartesianDistance(null); });
+		coordinate.getCartesianDistance(coordinate); // no exception is thrown
+	}
+
+	/**
+	 * 
+	*/
+	@Test
+	public void testGetCentralAngleAssertions() {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+
+		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getCentralAngle(null); });
+		coordinate.getCartesianDistance(coordinate); // no exception is thrown
 	}
 }

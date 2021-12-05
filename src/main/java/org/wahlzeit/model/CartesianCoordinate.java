@@ -16,9 +16,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	protected double z;
 
 	public CartesianCoordinate(double x, double y, double z) {
+		this.assertValidArguments(x, y, z);
+
 		this.x = x;
 		this.y = y;
 		this.z = z;
+
+		this.assertClassInvariants();
 	}
 
 	/**
@@ -46,12 +50,41 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public CartesianCoordinate asCartesianCoordinate() {
-		return new CartesianCoordinate(this.x, this.y, this.z);
+	protected void assertClassInvariants() throws IllegalStateException {
+		String validationErrorMessage = getValidationErrorMessage(this.x, this.y, this.z);
+		if (validationErrorMessage != null) {
+			throw new IllegalStateException(validationErrorMessage);
+		}
+	}
+	
+	protected void assertValidArguments(double x, double y, double z) throws IllegalArgumentException {
+		String validationErrorMessage = getValidationErrorMessage(x, y, z);
+		if (validationErrorMessage != null) {
+			throw new IllegalArgumentException(validationErrorMessage);
+		}
+	}
+	
+	private static String getValidationErrorMessage(double x, double y, double z) {
+		if (Double.isNaN(x)) {
+			return "x must not be NaN.";
+		}
+		if (Double.isNaN(y)) {
+			return "y must not be NaN.";
+		}
+		if (Double.isNaN(z)) {
+			return "z must not be NaN.";
+		}
+		return null;
 	}
 
 	@Override
-	public SphericCoordinate asSphericCoordinate() throws ArithmeticException {
+	protected CartesianCoordinate doAsCartesianCoordinate() {
+		CartesianCoordinate cartesian = new CartesianCoordinate(this.x, this.y, this.z);
+		return cartesian;
+	}
+
+	@Override
+	protected SphericCoordinate doAsSphericCoordinate() throws ArithmeticException {
 		double radius = ORIGIN.getDistance(this);
 		double theta = Math.atan2(this.y, this.x);
 		double phi = Math.acos(this.z / radius);
@@ -59,7 +92,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	public boolean isEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) {
 		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
 		return this.isEqual(otherCartesian);
 	}
@@ -77,17 +110,32 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 * 
 	 */
 	public void writeOn(ResultSet rset) throws SQLException {
+		this.assertClassInvariants();
+		if (rset == null) {
+			throw new IllegalArgumentException("rset must not be null.");
+		}
+
 		rset.updateDouble("coordinate_x", this.x);
 		rset.updateDouble("coordinate_y", this.y);
 		rset.updateDouble("coordinate_z", this.z);
+
+		this.assertClassInvariants();
 	}
 
 	public double getDistance(CartesianCoordinate other) throws ArithmeticException {
+		this.assertClassInvariants();
+		this.assertArgumentIsNotNull(other);
+
 		double diffX = this.x - other.x;
 		double diffY = this.y - other.y;
 		double diffZ = this.z - other.z;
 		double sum = diffX * diffX + diffY * diffY + diffZ * diffZ;
 		double sqrt = Math.sqrt(sum);
+
+		this.assertArgumentIsNotNaN(sqrt);
+		this.assertArgumentIsNotNegative(sqrt);
+		this.assertClassInvariants();
+
 		return sqrt;
 	}
 
