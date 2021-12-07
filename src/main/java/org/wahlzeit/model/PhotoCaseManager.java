@@ -73,6 +73,8 @@ public class PhotoCaseManager extends ObjectManager {
 				result = (PhotoCase) readObject(stmt, id);
 			} catch (SQLException sex) {
 				SysLog.logThrowable(sex);
+			} catch (InvalidPersistentObjectException ex) {
+				SysLog.logThrowable(ex);
 			}
 		}
 		
@@ -93,6 +95,8 @@ public class PhotoCaseManager extends ObjectManager {
 			// @FIXME Main.saveGlobals();
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	
@@ -107,6 +111,8 @@ public class PhotoCaseManager extends ObjectManager {
 			updateObject(myCase, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}	
 	
@@ -120,6 +126,8 @@ public class PhotoCaseManager extends ObjectManager {
 			readObjects(result, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 		
 		SysLog.logSysInfo("loaded all open photo cases");
@@ -135,6 +143,8 @@ public class PhotoCaseManager extends ObjectManager {
 			updateObjects(openPhotoCases.values(), stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	

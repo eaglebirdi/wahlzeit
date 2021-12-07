@@ -73,7 +73,7 @@ public class PhotoFactory {
 	/**
 	 * 
 	 */
-	public Photo createPhoto(ResultSet rs) throws SQLException {
+	public Photo createPhoto(ResultSet rs) throws SQLException, InvalidPersistentObjectException {
 		return new Photo(rs);
 	}
 	

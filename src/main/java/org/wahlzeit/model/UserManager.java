@@ -92,6 +92,8 @@ public class UserManager extends ObjectManager {
 				result = (User) readObject(stmt, tag);
 			} catch (SQLException sex) {
 				SysLog.logThrowable(sex);
+			} catch (InvalidPersistentObjectException ex) {
+				SysLog.logThrowable(ex);
 			}
 			
 			if (result != null) {
@@ -206,6 +208,8 @@ public class UserManager extends ObjectManager {
 			}
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 		
 		SysLog.logSysInfo("loaded all users");
@@ -263,6 +267,8 @@ public class UserManager extends ObjectManager {
 			updateObject(user, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	
@@ -283,6 +289,8 @@ public class UserManager extends ObjectManager {
 			updateObjects(users.values(), stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	
@@ -303,6 +311,8 @@ public class UserManager extends ObjectManager {
 			result = (User) readObject(stmt, emailAddress.asString());
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 		
 		if (result != null) {
