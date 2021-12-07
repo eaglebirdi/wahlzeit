@@ -159,7 +159,12 @@ public class Photo extends DataObject {
 		if (!rset.wasNull()) {
 			double coordinateY = rset.getDouble("coordinate_y");
 			double coordinateZ = rset.getDouble("coordinate_z");
-			this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
+			try {
+				this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
+			} catch (InvalidCoordinateException ex) {
+				SysLog.logSysError("Coordinate of photo '" + this.id.asString() + "' could not be loaded: " + ex.getMessage());
+			}
+			
 		}
 	}
 	
@@ -183,7 +188,11 @@ public class Photo extends DataObject {
 		rset.updateLong("creation_time", creationTime);
 
 		if (this.location != null) {
-			this.location.writeOn(rset);
+			try {
+				this.location.writeOn(rset);
+			} catch (InvalidCoordinateException ex) {
+				SysLog.logSysError("Coordinate of photo '" + this.id.asString() + "' could not be stored: " + ex.getMessage());
+			}
 		}
 	}
 

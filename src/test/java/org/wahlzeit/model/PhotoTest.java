@@ -22,7 +22,7 @@ public class PhotoTest {
 	 *
 	 */
 	@Test
-	public void testLocationGetSet() {
+	public void testLocationGetSet() throws InvalidCoordinateException {
 
 		Photo photo = new Photo();
 		Location location = new Location(new CartesianCoordinate(0.0, 0.0, 0.0));

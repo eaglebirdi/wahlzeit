@@ -23,7 +23,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 */
 	private double phi;
 
-	public SphericCoordinate(double radius, double theta, double phi) {
+	public SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
 		this.assertValidArguments(radius, theta, phi);
 
 		this.radius = radius;
@@ -58,10 +58,10 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected void assertClassInvariants() throws IllegalStateException {
+	protected void assertClassInvariants() throws InvalidCoordinateException {
 		String validationErrorMessage = getValidationErrorMessage(this.radius, this.theta, this.phi);
 		if (validationErrorMessage != null) {
-			throw new IllegalStateException(validationErrorMessage);
+			throw new InvalidCoordinateException(validationErrorMessage);
 		}
 	}
 	
@@ -99,7 +99,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException {
+	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException, ArithmeticException {
 		if (this.radius == 0) {
 			return new CartesianCoordinate(0, 0, 0);
 		}
@@ -111,12 +111,12 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected SphericCoordinate doAsSphericCoordinate() {
+	protected SphericCoordinate doAsSphericCoordinate() throws InvalidCoordinateException {
 		return new SphericCoordinate(this.radius, this.theta, this.phi);
 	}
 
 	@Override
-	protected boolean doIsEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) throws InvalidCoordinateException {
 		SphericCoordinate otherSpheric = other.asSphericCoordinate();
 		return this.isEqual(otherSpheric);
 	}
@@ -130,14 +130,19 @@ public class SphericCoordinate extends AbstractCoordinate {
 		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
 	}
 
-	public double getAngleTo(SphericCoordinate other) throws ArithmeticException {
+	public double getAngleTo(SphericCoordinate other) throws InvalidCoordinateException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
-		double angle = Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
+		double angle;
+		try {
+			angle = Math.acos(Math.sin(this.phi) * Math.sin(other.phi) + Math.cos(this.phi) * Math.cos(other.phi) * Math.cos(this.theta - other.theta));
+		} catch (ArithmeticException ex) {
+			throw new InvalidCoordinateException(ex);
+		}
 
-		this.assertArgumentIsNotNaN(angle);
-		this.assertArgumentIsInAngleRange(angle);
+		this.assertResultIsNotNaN(angle);
+		this.assertResultIsInAngleRange(angle);
 		this.assertClassInvariants();
 
 		return angle;
@@ -154,7 +159,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 		}
 
 		Coordinate other = (Coordinate) obj;
-		return this.isEqual(other);
+
+		// equals should not throw an exception
+		try {
+			return this.isEqual(other);
+		} catch (InvalidCoordinateException ex) {
+			return false;
+		}
 	}
 
 	@Override
