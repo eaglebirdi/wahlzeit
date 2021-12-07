@@ -2,6 +2,7 @@ package org.wahlzeit.model;
 
 import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
@@ -19,7 +20,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsCartesianCoordinate() {
+	public void testAsCartesianCoordinate() throws InvalidCoordinateException {
 		CartesianCoordinate cartesian = new CartesianCoordinate(1.0, 2.0, 3.0);
 		CartesianCoordinate result = cartesian.asCartesianCoordinate();
 		assertEquals(cartesian, result);
@@ -30,7 +31,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testGetDistance() {
+	public void testGetDistance() throws InvalidCoordinateException {
 		assertEquals(5.0990195, new CartesianCoordinate(1.0, 2.0, 3.0).getDistance(new CartesianCoordinate(2.0, 5.0, -1.0)), EPSILON);
 		assertEquals(1.0, new CartesianCoordinate(0.0, 0.0, 0.0).getDistance(new CartesianCoordinate(-1.0, 0.0, 0.0)), EPSILON);
 		assertEquals(1.4142136, new CartesianCoordinate(-1.0, -2.0, 0.0).getDistance(new CartesianCoordinate(0.0, -3.0, 0.0)), EPSILON);
@@ -41,7 +42,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsSphericCoordinate() {
+	public void testAsSphericCoordinate() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1.0, 2.0, 3.0);
 		SphericCoordinate sphericActual = coordinate.asSphericCoordinate();
 		SphericCoordinate sphericExpected = new SphericCoordinate(3.7416573867739, 1.107148718, 0.6405223127);
@@ -52,7 +53,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testGetCentralAngle() {
+	public void testGetCentralAngle() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate1 = new CartesianCoordinate(1, 2, 3);
 
 		CartesianCoordinate coordinate2Cartesian = new CartesianCoordinate(2, 0, -3);
@@ -68,7 +69,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testIsEqual() {
+	public void testIsEqual() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1.0, 2.0, 3.0);
 		CartesianCoordinate other = new CartesianCoordinate(2.0, 5.0, -1.0);
 		assertTrue(coordinate.isEqual(coordinate));
@@ -88,7 +89,7 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testEquals() {
+	public void testEquals() throws InvalidCoordinateException {
 		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(null));
 		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new Object()));
 		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).equals(new CartesianCoordinate(1.0, 2.0, 4.0)));
@@ -99,28 +100,50 @@ public class CartesianCoordinateTest {
 	/**
 	 * 
 	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsXIsNaN() throws InvalidCoordinateException {
+		new CartesianCoordinate(Double.NaN, 2, 3);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsYIsNaN() throws InvalidCoordinateException {
+		new CartesianCoordinate(1, Double.NaN, 3);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsZIsNaN() throws InvalidCoordinateException {
+		new CartesianCoordinate(1, 2, Double.NaN);
+	}
+
+	/**
+	 * 
+	 */
 	@Test
-	public void testConstructorAssertions() {
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(Double.NaN, Math.PI, Math.PI); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Double.NaN, Math.PI); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, Double.NaN); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI + 0.01, Math.PI); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, Math.PI + 0.01); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, -Math.PI - 0.01, Math.PI); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, Math.PI, -Math.PI - 0.01); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new SphericCoordinate(1, 0, 0); });
-		new SphericCoordinate(0, 0, 0); // no exception is thrown
-		new SphericCoordinate(1, 2, 3); // no exception is thrown
+	public void testConstructorAssertionsValidArguments() throws InvalidCoordinateException {
+		new CartesianCoordinate(1, 2, 3); // no exception is thrown
+	}
+
+	/**
+	 * 
+	*/
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetDistanceAssertionsNullArgument() throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		coordinate.getDistance(null);
 	}
 
 	/**
 	 * 
 	*/
 	@Test
-	public void testGetAngleToAssertions() {
-		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
-
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getAngleTo(null); });
-		coordinate.getAngleTo(coordinate); // no exception is thrown
+	public void testGetDistanceAssertionsValidArgument() throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		coordinate.getDistance(coordinate); // no exception is thrown
 	}
 }

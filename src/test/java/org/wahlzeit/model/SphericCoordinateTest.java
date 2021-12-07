@@ -19,7 +19,7 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsCartesianCoordinate() {
+	public void testAsCartesianCoordinate() throws InvalidCoordinateException {
 		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		CartesianCoordinate cartesianActual = coordinate.asCartesianCoordinate();
 		CartesianCoordinate cartesianExpected = new CartesianCoordinate(0.5822798637, 0.6939341195, 3.380740392);
@@ -30,7 +30,7 @@ public class SphericCoordinateTest {
 	 * 
 	 */
 	@Test
-	public void testGetCartesianDistance() {
+	public void testGetCartesianDistance() throws InvalidCoordinateException {
 		SphericCoordinate coordinate1 = new SphericCoordinate(1, 45.0/180*Math.PI, 15.0/180*Math.PI);
 
 		SphericCoordinate coordinate2Spheric = new SphericCoordinate(2, 30.0/180*Math.PI, 60.0/180*Math.PI);
@@ -46,7 +46,7 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsSphericCoordinate() {
+	public void testAsSphericCoordinate() throws InvalidCoordinateException {
 		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate result = coordinate.asSphericCoordinate();
 		assertEquals(coordinate, result);
@@ -57,7 +57,7 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testGetAngleTo() {
+	public void testGetAngleTo() throws InvalidCoordinateException {
 		SphericCoordinate sphericCoordinate1 = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate sphericCoordinate2 = new SphericCoordinate(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
 		double result1 = sphericCoordinate1.getAngleTo(sphericCoordinate2);
@@ -73,7 +73,7 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testIsEqual() {
+	public void testIsEqual() throws InvalidCoordinateException {
 		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate other = new SphericCoordinate(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
 		assertTrue(coordinate.isEqual(coordinate));
@@ -93,7 +93,7 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testEquals() {
+	public void testEquals() throws InvalidCoordinateException {
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(null));
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new Object()));
 		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
@@ -104,22 +104,99 @@ public class SphericCoordinateTest {
 	/**
 	 * 
 	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsRadiusIsNaN() throws InvalidCoordinateException {
+		new SphericCoordinate(Double.NaN, Math.PI, Math.PI);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsRadiusIsNegative() throws InvalidCoordinateException {
+		new SphericCoordinate(-1, Math.PI, Math.PI);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsThetaIsNaN() throws InvalidCoordinateException {
+		new SphericCoordinate(1, Double.NaN, Math.PI);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsPhiIsNaN() throws InvalidCoordinateException {
+		new SphericCoordinate(1, Math.PI, Double.NaN);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsThetaIsTooBig() throws InvalidCoordinateException {
+		new SphericCoordinate(1, Math.PI + 0.01, Math.PI);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsPhiIsTooBig() throws InvalidCoordinateException {
+		new SphericCoordinate(1, Math.PI, Math.PI + 0.01);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsThetaIsTooSmall() throws InvalidCoordinateException {
+		new SphericCoordinate(1, -Math.PI - 0.01, Math.PI);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsPhiIsTooSmall() throws InvalidCoordinateException {
+		new SphericCoordinate(1, Math.PI, -Math.PI - 0.01);
+	}
+
+	/**
+	 * 
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testConstructorAssertionsThetaAndPhiAreBothZero() throws InvalidCoordinateException {
+		new SphericCoordinate(1, 0, 0);
+	}
+
+	/**
+	 * 
+	 */
 	@Test
-	public void testConstructorAssertions() {
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(Double.NaN, 2, 3); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(1, Double.NaN, 3); });
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { new CartesianCoordinate(1, 2, Double.NaN); });
-		new CartesianCoordinate(1, 2, 3); // no exception is thrown
+	public void testConstructorAssertionsValidArguments() throws InvalidCoordinateException {
+		new SphericCoordinate(0, 0, 0); // no exception is thrown
+		new SphericCoordinate(1, 2, 3); // no exception is thrown
+	}
+
+	/**
+	 * 
+	*/
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetAngleToAssertionsNullArgument() throws InvalidCoordinateException {
+		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
+		coordinate.getAngleTo(null);
 	}
 
 	/**
 	 * 
 	*/
 	@Test
-	public void testGetDistanceAssertions() {
-		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
-
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getDistance(null); });
-		coordinate.getDistance(coordinate); // no exception is thrown
+	public void testGetAngleToAssertionsValidArgument() throws InvalidCoordinateException {
+		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
+		coordinate.getAngleTo(coordinate); // no exception is thrown
 	}
 }

@@ -27,7 +27,7 @@ public class Location {
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, InvalidCoordinateException {
 		this.coordinate.writeOn(rset);
 	}
 }

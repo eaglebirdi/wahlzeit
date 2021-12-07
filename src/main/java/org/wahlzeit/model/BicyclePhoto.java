@@ -24,7 +24,7 @@ public class BicyclePhoto extends Photo {
 	 * 
 	 * @methodtype constructor
 	 */
-	public BicyclePhoto(ResultSet rset) throws SQLException {
+	public BicyclePhoto(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		super(rset);
 	}
 
@@ -48,7 +48,7 @@ public class BicyclePhoto extends Photo {
 	 * 
 	 */
 	@Override	
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		super.writeOn(rset);
 		rset.updateString("brand_name", this.brandName);
 	}
@@ -57,7 +57,7 @@ public class BicyclePhoto extends Photo {
 	 * 
 	 */
 	@Override	
-	public void readFrom(ResultSet rset) throws SQLException {
+	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		super.readFrom(rset);
 		this.brandName = rset.getString("brand_name");
 	}

@@ -16,7 +16,7 @@ public class BicyclePhotoManager extends PhotoManager {
 	/**
 	 * 
 	 */
-	protected BicyclePhoto createObject(ResultSet rset) throws SQLException {
+	protected BicyclePhoto createObject(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		return BicyclePhotoFactory.getInstance().createPhoto(rset);
 	}
 }

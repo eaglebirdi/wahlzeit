@@ -116,7 +116,7 @@ public class Photo extends DataObject {
 	 * 
 	 * @methodtype constructor
 	 */
-	public Photo(ResultSet rset) throws SQLException {
+	public Photo(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		readFrom(rset);
 	}
 
@@ -131,7 +131,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException {
+	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
@@ -159,14 +159,19 @@ public class Photo extends DataObject {
 		if (!rset.wasNull()) {
 			double coordinateY = rset.getDouble("coordinate_y");
 			double coordinateZ = rset.getDouble("coordinate_z");
-			this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
+			try {
+				this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
+			} catch (InvalidCoordinateException ex) {
+				throw new InvalidPersistentObjectException("Coordinate cannot be read.", ex);
+			}
+			
 		}
 	}
 	
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		rset.updateInt("id", id.asInt());
 		rset.updateInt("owner_id", ownerId);
 		rset.updateString("owner_name", ownerName);
@@ -183,7 +188,11 @@ public class Photo extends DataObject {
 		rset.updateLong("creation_time", creationTime);
 
 		if (this.location != null) {
-			this.location.writeOn(rset);
+			try {
+				this.location.writeOn(rset);
+			} catch (InvalidCoordinateException ex) {
+				throw new InvalidPersistentObjectException("Coordinate cannot be stored.", ex);
+			}
 		}
 	}
 

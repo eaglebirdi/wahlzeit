@@ -9,6 +9,8 @@ package org.wahlzeit.services;
 import java.sql.*;
 import java.util.*;
 
+import org.wahlzeit.model.InvalidPersistentObjectException;
+
 /**
  * An ObjectManager creates/reads/updates/deletes Persistent (objects) from a database.
  * It is an abstract superclass that relies on an inheritance interface and the Persistent interface.
@@ -41,7 +43,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected Persistent readObject(PreparedStatement stmt, int value) throws SQLException {
+	protected Persistent readObject(PreparedStatement stmt, int value) throws SQLException, InvalidPersistentObjectException {
 		Persistent result = null;
 		stmt.setInt(1, value);
 		SysLog.logQuery(stmt);
@@ -56,7 +58,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected Persistent readObject(PreparedStatement stmt, String value) throws SQLException {
+	protected Persistent readObject(PreparedStatement stmt, String value) throws SQLException, InvalidPersistentObjectException {
 		Persistent result = null;
 		stmt.setString(1, value);
 		SysLog.logQuery(stmt);
@@ -71,7 +73,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected void readObjects(Collection result, PreparedStatement stmt) throws SQLException {
+	protected void readObjects(Collection result, PreparedStatement stmt) throws SQLException, InvalidPersistentObjectException {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		while (rset.next()) {
@@ -83,7 +85,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected void readObjects(Collection result, PreparedStatement stmt, String value) throws SQLException {
+	protected void readObjects(Collection result, PreparedStatement stmt, String value) throws SQLException, InvalidPersistentObjectException {
 		stmt.setString(1, value);
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
@@ -96,7 +98,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected abstract Persistent createObject(ResultSet rset) throws SQLException;
+	protected abstract Persistent createObject(ResultSet rset) throws SQLException, InvalidPersistentObjectException;
 
 	/**
 	 * 
@@ -119,7 +121,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected void updateObject(Persistent obj, PreparedStatement stmt) throws SQLException {
+	protected void updateObject(Persistent obj, PreparedStatement stmt) throws SQLException, InvalidPersistentObjectException {
 		if (obj.isDirty()) {
 			obj.writeId(stmt, 1);
 			SysLog.logQuery(stmt);
@@ -138,7 +140,7 @@ public abstract class ObjectManager {
 	/**
 	 * 
 	 */
-	protected void updateObjects(Collection coll, PreparedStatement stmt) throws SQLException {
+	protected void updateObjects(Collection coll, PreparedStatement stmt) throws SQLException, InvalidPersistentObjectException {
 		for (Iterator i = coll.iterator(); i.hasNext(); ) {
 			Persistent obj = (Persistent) i.next();
 			updateObject(obj, stmt);

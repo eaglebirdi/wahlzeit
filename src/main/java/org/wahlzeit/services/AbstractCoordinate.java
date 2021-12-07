@@ -6,24 +6,29 @@ public abstract class AbstractCoordinate implements Coordinate {
 	protected AbstractCoordinate() {
 	}
 
-	protected abstract void assertClassInvariants() throws IllegalStateException;
+	protected abstract void assertClassInvariants() throws InvalidCoordinateException;
 
-	protected abstract CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException;
-	protected abstract SphericCoordinate doAsSphericCoordinate() throws ArithmeticException;
-	protected abstract boolean doIsEqual(Coordinate other);
+	protected abstract CartesianCoordinate doAsCartesianCoordinate() throws ArithmeticException, InvalidCoordinateException;
+	protected abstract SphericCoordinate doAsSphericCoordinate() throws ArithmeticException, InvalidCoordinateException;
+	protected abstract boolean doIsEqual(Coordinate other) throws InvalidCoordinateException;
 
-	public CartesianCoordinate asCartesianCoordinate() throws ArithmeticException {
+	public CartesianCoordinate asCartesianCoordinate() throws InvalidCoordinateException {
 		this.assertClassInvariants();
 
-		CartesianCoordinate cartesian = this.doAsCartesianCoordinate();
+		CartesianCoordinate cartesian;
+		try {
+			cartesian = this.doAsCartesianCoordinate();
+		} catch (ArithmeticException ex) {
+			throw new InvalidCoordinateException(ex);
+		}
 
-		this.assertArgumentIsNotNull(cartesian);
+		this.assertResultIsNotNull(cartesian);
 		this.assertClassInvariants();
 
 		return cartesian;
 	}
 
-	public double getCartesianDistance(Coordinate other) throws ArithmeticException {
+	public double getCartesianDistance(Coordinate other) throws InvalidCoordinateException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -31,25 +36,30 @@ public abstract class AbstractCoordinate implements Coordinate {
 		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
 		double distance = thisCartesian.getDistance(otherCartesian);
 
-		this.assertArgumentIsNotNaN(distance);
-		this.assertArgumentIsNotNegative(distance);
+		this.assertResultIsNotNaN(distance);
+		this.assertResultIsNotNegative(distance);
 		this.assertClassInvariants();
 
 		return distance;
 	}
 
-	public SphericCoordinate asSphericCoordinate() throws ArithmeticException {
+	public SphericCoordinate asSphericCoordinate() throws InvalidCoordinateException {
 		this.assertClassInvariants();
 
-		SphericCoordinate spheric = this.doAsSphericCoordinate();
+		SphericCoordinate spheric;
+		try {
+			spheric = this.doAsSphericCoordinate();
+		} catch (ArithmeticException ex) {
+			throw new InvalidCoordinateException(ex);
+		}
 
-		this.assertArgumentIsNotNull(spheric);
+		this.assertResultIsNotNull(spheric);
 		this.assertClassInvariants();
 
 		return spheric;
 	}
 
-	public double getCentralAngle(Coordinate other) throws ArithmeticException {
+	public double getCentralAngle(Coordinate other) throws InvalidCoordinateException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -57,14 +67,14 @@ public abstract class AbstractCoordinate implements Coordinate {
 		SphericCoordinate otherSpheric = other.asSphericCoordinate();
 		double angle = thisSpheric.getAngleTo(otherSpheric);
 
-		this.assertArgumentIsNotNaN(angle);
-		this.assertArgumentIsInAngleRange(angle);
+		this.assertResultIsNotNaN(angle);
+		this.assertResultIsInAngleRange(angle);
 		this.assertClassInvariants();
 
 		return angle;
 	}
 
-	public boolean isEqual(Coordinate other) {
+	public boolean isEqual(Coordinate other) throws InvalidCoordinateException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -81,9 +91,21 @@ public abstract class AbstractCoordinate implements Coordinate {
 		}
 	}
 	
+	protected void assertResultIsNotNull(Coordinate coordinate) throws InvalidCoordinateException {
+		if (coordinate == null) {
+			throw new InvalidCoordinateException("coordinate must not be null.");
+		}
+	}
+	
 	protected void assertArgumentIsNotNaN(double value) throws IllegalArgumentException {
 		if (Double.isNaN(value)) {
 			throw new IllegalArgumentException("value must not be NaN.");
+		}
+	}
+
+	protected void assertResultIsNotNaN(double value) throws InvalidCoordinateException {
+		if (Double.isNaN(value)) {
+			throw new InvalidCoordinateException("value must not be NaN.");
 		}
 	}
 
@@ -93,9 +115,21 @@ public abstract class AbstractCoordinate implements Coordinate {
 		}
 	}
 
+	protected void assertResultIsNotNegative(double value) throws InvalidCoordinateException {
+		if (value < 0) {
+			throw new InvalidCoordinateException("value must not be negative.");
+		}
+	}
+
 	protected void assertArgumentIsInAngleRange(double angle) throws IllegalArgumentException {
 		if (!isAngleInRange(angle)) {
 			throw new IllegalArgumentException("angle must be between minus PI and PI.");
+		}
+	}
+
+	protected void assertResultIsInAngleRange(double angle) throws InvalidCoordinateException {
+		if (!isAngleInRange(angle)) {
+			throw new InvalidCoordinateException("angle must be between minus PI and PI.");
 		}
 	}
 

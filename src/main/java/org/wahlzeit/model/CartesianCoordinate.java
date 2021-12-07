@@ -9,13 +9,11 @@ import org.wahlzeit.services.*;
  * A cartesian coordinate represents a position which is defined by the three values x, y and z in an orthogonal coordinate system.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
-	private static final CartesianCoordinate ORIGIN = new CartesianCoordinate(0, 0, 0);
-
 	protected double x;
 	protected double y;
 	protected double z;
 
-	public CartesianCoordinate(double x, double y, double z) {
+	public CartesianCoordinate(double x, double y, double z) throws InvalidCoordinateException {
 		this.assertValidArguments(x, y, z);
 
 		this.x = x;
@@ -50,10 +48,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected void assertClassInvariants() throws IllegalStateException {
+	protected void assertClassInvariants() throws InvalidCoordinateException {
 		String validationErrorMessage = getValidationErrorMessage(this.x, this.y, this.z);
 		if (validationErrorMessage != null) {
-			throw new IllegalStateException(validationErrorMessage);
+			throw new InvalidCoordinateException(validationErrorMessage);
 		}
 	}
 	
@@ -78,21 +76,22 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	@Override
-	protected CartesianCoordinate doAsCartesianCoordinate() {
+	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException {
 		CartesianCoordinate cartesian = new CartesianCoordinate(this.x, this.y, this.z);
 		return cartesian;
 	}
 
 	@Override
-	protected SphericCoordinate doAsSphericCoordinate() throws ArithmeticException {
-		double radius = ORIGIN.getDistance(this);
+	protected SphericCoordinate doAsSphericCoordinate() throws InvalidCoordinateException, ArithmeticException {
+		CartesianCoordinate origin = new CartesianCoordinate(0, 0, 0);
+		double radius = origin.getDistance(this);
 		double theta = Math.atan2(this.y, this.x);
 		double phi = Math.acos(this.z / radius);
 		return new SphericCoordinate(radius, theta, phi);
 	}
 
 	@Override
-	protected boolean doIsEqual(Coordinate other) {
+	protected boolean doIsEqual(Coordinate other) throws InvalidCoordinateException {
 		CartesianCoordinate otherCartesian = other.asCartesianCoordinate();
 		return this.isEqual(otherCartesian);
 	}
@@ -109,7 +108,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	/**
 	 * 
 	 */
-	public void writeOn(ResultSet rset) throws SQLException {
+	public void writeOn(ResultSet rset) throws SQLException, InvalidCoordinateException {
 		this.assertClassInvariants();
 		if (rset == null) {
 			throw new IllegalArgumentException("rset must not be null.");
@@ -122,7 +121,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		this.assertClassInvariants();
 	}
 
-	public double getDistance(CartesianCoordinate other) throws ArithmeticException {
+	public double getDistance(CartesianCoordinate other) throws InvalidCoordinateException {
 		this.assertClassInvariants();
 		this.assertArgumentIsNotNull(other);
 
@@ -130,10 +129,16 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		double diffY = this.y - other.y;
 		double diffZ = this.z - other.z;
 		double sum = diffX * diffX + diffY * diffY + diffZ * diffZ;
-		double sqrt = Math.sqrt(sum);
+		double sqrt;
 
-		this.assertArgumentIsNotNaN(sqrt);
-		this.assertArgumentIsNotNegative(sqrt);
+		try {
+			sqrt = Math.sqrt(sum);
+		} catch (ArithmeticException ex) {
+			throw new InvalidCoordinateException(ex);
+		}
+
+		this.assertResultIsNotNaN(sqrt);
+		this.assertResultIsNotNegative(sqrt);
 		this.assertClassInvariants();
 
 		return sqrt;
@@ -150,7 +155,13 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		}
 
 		Coordinate other = (Coordinate) obj;
-		return this.isEqual(other);
+		
+		// equals should not throw an exception
+		try {
+			return this.isEqual(other);
+		} catch (InvalidCoordinateException ex) {
+			return false;
+		}
 	}
 
 	@Override

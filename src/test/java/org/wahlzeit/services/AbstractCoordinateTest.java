@@ -1,8 +1,8 @@
 package org.wahlzeit.services;
 
-import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 import org.wahlzeit.model.CartesianCoordinate;
+import org.wahlzeit.model.InvalidCoordinateException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -10,7 +10,7 @@ public class AbstractCoordinateTest {
 	private static final double EPSILON = 0.0001;
 
 	@Test
-	public void testGetCartesianDistance() {
+	public void testGetCartesianDistance() throws InvalidCoordinateException {
 		Coordinate cartesian1 = new CartesianCoordinate(1, 2, 3);
 		Coordinate cartesian2 = new CartesianCoordinate(-3, 4, 0);
 		Coordinate spheric1 = cartesian1.asSphericCoordinate();
@@ -29,7 +29,7 @@ public class AbstractCoordinateTest {
 	}
 
 	@Test
-	public void testGetCentralAngle() {
+	public void testGetCentralAngle() throws InvalidCoordinateException {
 		Coordinate cartesian1 = new CartesianCoordinate(1, 2, 3);
 		Coordinate cartesian2 = new CartesianCoordinate(-3, 4, 0);
 		Coordinate spheric1 = cartesian1.asSphericCoordinate();
@@ -50,22 +50,36 @@ public class AbstractCoordinateTest {
 	/**
 	 * 
 	 */
-	@Test
-	public void testGetCartesianDistanceAssertions() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetCartesianDistanceAssertionsNullArgument() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		coordinate.getCartesianDistance(null);
+	}
 
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getCartesianDistance(null); });
+	/**
+	 * 
+	 */
+	@Test
+	public void testGetCartesianDistanceAssertionsValidArgument() throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
 		coordinate.getCartesianDistance(coordinate); // no exception is thrown
 	}
 
 	/**
 	 * 
 	*/
-	@Test
-	public void testGetCentralAngleAssertions() {
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetCentralAngleAssertionsNullArgument() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		coordinate.getCentralAngle(null);
+	}
 
-		AssertionHelper.assertThrows(IllegalArgumentException.class, () -> { coordinate.getCentralAngle(null); });
+	/**
+	 * 
+	*/
+	@Test
+	public void testGetCentralAngleAssertions() throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
 		coordinate.getCartesianDistance(coordinate); // no exception is thrown
 	}
 }

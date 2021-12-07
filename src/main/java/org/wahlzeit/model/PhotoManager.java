@@ -98,6 +98,8 @@ public class PhotoManager extends ObjectManager {
 				result = (Photo) readObject(stmt, id.asInt());
 			} catch (SQLException sex) {
 				SysLog.logThrowable(sex);
+			} catch (InvalidPersistentObjectException ex) {
+				SysLog.logThrowable(ex);
 			}
 			if (result != null) {
 				doAddPhoto(result);
@@ -118,7 +120,7 @@ public class PhotoManager extends ObjectManager {
 	/**
 	 * 
 	 */
-	protected Photo createObject(ResultSet rset) throws SQLException {
+	protected Photo createObject(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		return PhotoFactory.getInstance().createPhoto(rset);
 	}
 	
@@ -166,6 +168,8 @@ public class PhotoManager extends ObjectManager {
 			}
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 		
 		SysLog.logSysInfo("loaded all photos");
@@ -180,6 +184,8 @@ public class PhotoManager extends ObjectManager {
 			updateObject(photo, stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	
@@ -192,6 +198,8 @@ public class PhotoManager extends ObjectManager {
 			updateObjects(photoCache.values(), stmt);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 	}
 	
@@ -208,6 +216,8 @@ public class PhotoManager extends ObjectManager {
 			readObjects(result, stmt, ownerName);
 		} catch (SQLException sex) {
 			SysLog.logThrowable(sex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
 		}
 		
 		for (Iterator<Photo> i = result.iterator(); i.hasNext(); ) {
