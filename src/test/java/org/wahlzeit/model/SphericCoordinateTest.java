@@ -1,6 +1,5 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
@@ -96,8 +95,8 @@ public class SphericCoordinateTest {
 
 		assertTrue(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI)));
 		assertFalse(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0, 45.0/180*Math.PI, 150.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0 + SUBEPSILON, 45.0/180*Math.PI + SUBEPSILON, 120.0/180*Math.PI + SUBEPSILON)));
-		assertFalse(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0 + EPSILON, 45.0/180*Math.PI + EPSILON, 120.0/180*Math.PI + EPSILON)));
+		assertTrue(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.00002, 1.00002 * 45.0/180*Math.PI, 1.00002 * 120.0/180*Math.PI)));
+		assertFalse(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0001, 1.0001 * 45.0/180*Math.PI, 1.0001 * 120.0/180*Math.PI + EPSILON)));
 	}
 
 	/**

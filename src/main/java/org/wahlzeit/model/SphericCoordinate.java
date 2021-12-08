@@ -3,6 +3,7 @@ package org.wahlzeit.model;
 import java.util.*;
 
 import org.wahlzeit.services.*;
+import org.wahlzeit.utils.MathUtil;
 
 /**
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
@@ -122,12 +123,10 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	private boolean isEqual(SphericCoordinate other) {
-		final double EPSILON = 0.0001;
-		double diffRadius = Math.abs(this.radius - other.radius);
-		double diffTheta = Math.abs(this.theta - other.theta);
-		double diffPhi = Math.abs(this.phi - other.phi);
-
-		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
+		double diffRadius = MathUtil.round(this.radius) - MathUtil.round(other.radius);
+		double diffTheta = MathUtil.round(this.theta) - MathUtil.round(other.theta);
+		double diffPhi = MathUtil.round(this.phi) - MathUtil.round(other.phi);
+		return diffRadius == 0 && diffTheta == 0 && diffPhi == 0;
 	}
 
 	public double getAngleTo(SphericCoordinate other) throws InvalidCoordinateException {
@@ -170,6 +169,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.radius, this.theta, this.phi);
+		return Objects.hash(MathUtil.round(this.radius), MathUtil.round(this.theta), MathUtil.round(this.phi));
 	}
 }

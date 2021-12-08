@@ -92,8 +92,8 @@ public class CartesianCoordinateTest {
 
 		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 3.0)));
 		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0, 2.0, 4.0)));
-		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0 + SUBEPSILON, 2.0 + SUBEPSILON, 3.0 + SUBEPSILON)));
-		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.0 + EPSILON, 2.0 + EPSILON, 3.0 + EPSILON)));
+		assertTrue(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.000049, 1.99995, 3.0)));
+		assertFalse(new CartesianCoordinate(1.0, 2.0, 3.0).isEqual(new CartesianCoordinate(1.00005, 2.000049, 3.0)));
 	}
 
 	/**
