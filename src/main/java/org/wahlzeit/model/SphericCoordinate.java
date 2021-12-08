@@ -9,22 +9,22 @@ import org.wahlzeit.utils.MathUtil;
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
  */
 public class SphericCoordinate extends AbstractCoordinate {
-	protected static ValueObjectRepository<SphericCoordinate> repository = new ValueObjectRepository<SphericCoordinate>();
+	protected static final ValueObjectRepository<SphericCoordinate> repository = new ValueObjectRepository<SphericCoordinate>();
 
 	/**
 	 * Radial distance
 	 */
-	private double radius;
+	protected final double radius;
 
 	/**
 	 * Polar angle
 	 */
-	private double theta;
+	protected final double theta;
 
 	/**
 	 * Azimuthal angle
 	 */
-	private double phi;
+	protected final double phi;
 
 	private SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
 		this.assertValidArguments(radius, theta, phi);
