@@ -42,10 +42,21 @@ public class CartesianCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsSphericCoordinate() throws InvalidCoordinateException {
+	public void testAsSphericCoordinateNonZeroCoordinate() throws InvalidCoordinateException {
 		CartesianCoordinate coordinate = new CartesianCoordinate(1.0, 2.0, 3.0);
 		SphericCoordinate sphericActual = coordinate.asSphericCoordinate();
 		SphericCoordinate sphericExpected = new SphericCoordinate(3.7416573867739, 1.107148718, 0.6405223127);
+		assertEquals(sphericExpected, sphericActual);
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public void testAsSphericCoordinateZeroCoordinate() throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(0, 0, 0);
+		SphericCoordinate sphericActual = coordinate.asSphericCoordinate();
+		SphericCoordinate sphericExpected = new SphericCoordinate(0, 0, 0);
 		assertEquals(sphericExpected, sphericActual);
 	}
 

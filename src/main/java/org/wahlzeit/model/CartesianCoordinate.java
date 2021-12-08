@@ -83,10 +83,17 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected SphericCoordinate doAsSphericCoordinate() throws InvalidCoordinateException, ArithmeticException {
+		final double EPSILON = 0.0001;
 		CartesianCoordinate origin = new CartesianCoordinate(0, 0, 0);
 		double radius = origin.getDistance(this);
-		double theta = Math.atan2(this.y, this.x);
-		double phi = Math.acos(this.z / radius);
+		double theta, phi;
+		if (Math.abs(radius) > EPSILON) {
+			theta = Math.atan2(this.y, this.x);
+			phi = Math.acos(this.z / radius);
+		} else {
+			theta = 0.0;
+			phi = 0.0;
+		}
 		return new SphericCoordinate(radius, theta, phi);
 	}
 

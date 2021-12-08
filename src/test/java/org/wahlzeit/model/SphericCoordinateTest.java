@@ -19,10 +19,21 @@ public class SphericCoordinateTest {
 	 *
 	 */
 	@Test
-	public void testAsCartesianCoordinate() throws InvalidCoordinateException {
+	public void testAsCartesianCoordinateNonZeroCoordinate() throws InvalidCoordinateException {
 		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		CartesianCoordinate cartesianActual = coordinate.asCartesianCoordinate();
 		CartesianCoordinate cartesianExpected = new CartesianCoordinate(0.5822798637, 0.6939341195, 3.380740392);
+		assertEquals(cartesianExpected, cartesianActual);
+	}
+
+	/**
+	 *
+	 */
+	@Test
+	public void testAsCartesianCoordinateZeroCoordinate() throws InvalidCoordinateException {
+		SphericCoordinate coordinate = new SphericCoordinate(0, 0, 0);
+		CartesianCoordinate cartesianActual = coordinate.asCartesianCoordinate();
+		CartesianCoordinate cartesianExpected = new CartesianCoordinate(0, 0, 0);
 		assertEquals(cartesianExpected, cartesianActual);
 	}
 
