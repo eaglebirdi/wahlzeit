@@ -3,7 +3,7 @@ package org.wahlzeit.model;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -60,7 +60,7 @@ public class SphericCoordinateTest {
 		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate result = coordinate.asSphericCoordinate();
 		assertEquals(coordinate, result);
-		assertNotSame(coordinate, result);
+		assertSame(coordinate, result);
 	}
 
 	/**

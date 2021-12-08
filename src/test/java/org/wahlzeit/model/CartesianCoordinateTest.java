@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +24,7 @@ public class CartesianCoordinateTest {
 		CartesianCoordinate cartesian = new CartesianCoordinate(1.0, 2.0, 3.0);
 		CartesianCoordinate result = cartesian.asCartesianCoordinate();
 		assertEquals(cartesian, result);
-		assertNotSame(cartesian, result);
+		assertSame(cartesian, result);
 	}
 
 	/**

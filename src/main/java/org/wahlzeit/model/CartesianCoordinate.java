@@ -78,8 +78,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException {
-		CartesianCoordinate cartesian = new CartesianCoordinate(this.x, this.y, this.z);
-		return cartesian;
+		return this;
 	}
 
 	@Override

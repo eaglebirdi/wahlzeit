@@ -113,7 +113,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected SphericCoordinate doAsSphericCoordinate() throws InvalidCoordinateException {
-		return new SphericCoordinate(this.radius, this.theta, this.phi);
+		return this;
 	}
 
 	@Override
