@@ -22,7 +22,7 @@ public class LocationTest {
 	 */
 	@Test
 	public void testConstructorPassNotNullCoordinate() throws InvalidCoordinateException {
-		CartesianCoordinate coordinate = new CartesianCoordinate(0.0, 0.0, 0.0);
+		CartesianCoordinate coordinate = CartesianCoordinate.create(0.0, 0.0, 0.0);
 		Location location = new Location(coordinate);
 		assertSame(coordinate, location.getCoordinate());
 	}

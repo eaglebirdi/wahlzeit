@@ -10,11 +10,13 @@ import org.wahlzeit.utils.MathUtil;
  * A cartesian coordinate represents a position which is defined by the three values x, y and z in an orthogonal coordinate system.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
+	protected static ValueObjectRepository<CartesianCoordinate> repository = new ValueObjectRepository<CartesianCoordinate>();
+
 	protected double x;
 	protected double y;
 	protected double z;
 
-	public CartesianCoordinate(double x, double y, double z) throws InvalidCoordinateException {
+	private CartesianCoordinate(double x, double y, double z) throws InvalidCoordinateException {
 		this.assertValidArguments(x, y, z);
 
 		this.x = x;
@@ -46,6 +48,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	 */
 	public double getZ() {
 		return this.z;
+	}
+
+	public static CartesianCoordinate create(double x, double y, double z) throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+		return repository.getOrPut(coordinate);
 	}
 
 	@Override
@@ -94,7 +101,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 			theta = 0.0;
 			phi = 0.0;
 		}
-		return new SphericCoordinate(radius, theta, phi);
+		return SphericCoordinate.create(radius, theta, phi);
 	}
 
 	@Override

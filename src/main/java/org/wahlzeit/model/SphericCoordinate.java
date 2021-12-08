@@ -9,6 +9,8 @@ import org.wahlzeit.utils.MathUtil;
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
  */
 public class SphericCoordinate extends AbstractCoordinate {
+	protected static ValueObjectRepository<SphericCoordinate> repository = new ValueObjectRepository<SphericCoordinate>();
+
 	/**
 	 * Radial distance
 	 */
@@ -24,7 +26,7 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 */
 	private double phi;
 
-	public SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
+	private SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
 		this.assertValidArguments(radius, theta, phi);
 
 		this.radius = radius;
@@ -56,6 +58,11 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 */
 	public double getPhi() {
 		return this.phi;
+	}
+
+	public static SphericCoordinate create(double radius, double theta, double phi) throws InvalidCoordinateException {
+		SphericCoordinate coordinate = new SphericCoordinate(radius, theta, phi);
+		return repository.getOrPut(coordinate);
 	}
 
 	@Override
@@ -102,13 +109,13 @@ public class SphericCoordinate extends AbstractCoordinate {
 	@Override
 	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException, ArithmeticException {
 		if (this.radius == 0) {
-			return new CartesianCoordinate(0, 0, 0);
+			return CartesianCoordinate.create(0, 0, 0);
 		}
 
 		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
 		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
 		double z = this.radius * Math.cos(this.phi);
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.create(x, y, z);
 	}
 
 	@Override
