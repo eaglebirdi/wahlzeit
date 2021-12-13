@@ -1,10 +1,15 @@
 package org.wahlzeit.model;
 
 import java.sql.*;
+import org.wahlzeit.services.DesignPattern;
 
 /**
  * A bicycle photo manager provides access to and manages bicycle photos.
  */
+@DesignPattern(
+	name = "Singleton",
+	participants = { "Singleton" }
+)
 public class BicyclePhotoManager extends PhotoManager {
 	/**
 	 * 

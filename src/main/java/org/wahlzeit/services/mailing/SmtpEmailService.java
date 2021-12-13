@@ -10,10 +10,15 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 import org.wahlzeit.services.EmailAddress;
+import org.wahlzeit.services.DesignPattern;
 
 /**
  * 
  */
+@DesignPattern(
+	name = "Template Method",
+	participants = { "ConcreteClass" }
+)
 public class SmtpEmailService extends AbstractEmailService {
 	
 	/**

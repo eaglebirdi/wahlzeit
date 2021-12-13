@@ -1,7 +1,12 @@
 package org.wahlzeit.model;
 
 import java.sql.*;
+import org.wahlzeit.services.DesignPattern;
 
+@DesignPattern(
+	name = "Abstract Factory",
+	participants = { "AbstractProduct", "ConcreteProduct" }
+)
 public class BicyclePhoto extends Photo {
 	protected String brandName;
 
