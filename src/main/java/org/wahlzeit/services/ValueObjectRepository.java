@@ -1,4 +1,4 @@
-package org.wahlzeit.model;
+package org.wahlzeit.services;
 
 import java.util.HashMap;
 
