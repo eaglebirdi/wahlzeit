@@ -11,8 +11,8 @@ public class AbstractCoordinateTest {
 
 	@Test
 	public void testGetCartesianDistance() throws InvalidCoordinateException {
-		Coordinate cartesian1 = new CartesianCoordinate(1, 2, 3);
-		Coordinate cartesian2 = new CartesianCoordinate(-3, 4, 0);
+		Coordinate cartesian1 = CartesianCoordinate.create(1, 2, 3);
+		Coordinate cartesian2 = CartesianCoordinate.create(-3, 4, 0);
 		Coordinate spheric1 = cartesian1.asSphericCoordinate();
 		Coordinate spheric2 = cartesian2.asSphericCoordinate();
 
@@ -30,8 +30,8 @@ public class AbstractCoordinateTest {
 
 	@Test
 	public void testGetCentralAngle() throws InvalidCoordinateException {
-		Coordinate cartesian1 = new CartesianCoordinate(1, 2, 3);
-		Coordinate cartesian2 = new CartesianCoordinate(-3, 4, 0);
+		Coordinate cartesian1 = CartesianCoordinate.create(1, 2, 3);
+		Coordinate cartesian2 = CartesianCoordinate.create(-3, 4, 0);
 		Coordinate spheric1 = cartesian1.asSphericCoordinate();
 		Coordinate spheric2 = cartesian2.asSphericCoordinate();
 
@@ -52,7 +52,7 @@ public class AbstractCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetCartesianDistanceAssertionsNullArgument() throws InvalidCoordinateException {
-		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		CartesianCoordinate coordinate = CartesianCoordinate.create(1, 2, 3);
 		coordinate.getCartesianDistance(null);
 	}
 
@@ -61,7 +61,7 @@ public class AbstractCoordinateTest {
 	 */
 	@Test
 	public void testGetCartesianDistanceAssertionsValidArgument() throws InvalidCoordinateException {
-		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		CartesianCoordinate coordinate = CartesianCoordinate.create(1, 2, 3);
 		coordinate.getCartesianDistance(coordinate); // no exception is thrown
 	}
 
@@ -70,7 +70,7 @@ public class AbstractCoordinateTest {
 	*/
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetCentralAngleAssertionsNullArgument() throws InvalidCoordinateException {
-		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		CartesianCoordinate coordinate = CartesianCoordinate.create(1, 2, 3);
 		coordinate.getCentralAngle(null);
 	}
 
@@ -79,7 +79,7 @@ public class AbstractCoordinateTest {
 	*/
 	@Test
 	public void testGetCentralAngleAssertions() throws InvalidCoordinateException {
-		CartesianCoordinate coordinate = new CartesianCoordinate(1, 2, 3);
+		CartesianCoordinate coordinate = CartesianCoordinate.create(1, 2, 3);
 		coordinate.getCartesianDistance(coordinate); // no exception is thrown
 	}
 }

@@ -3,27 +3,30 @@ package org.wahlzeit.model;
 import java.util.*;
 
 import org.wahlzeit.services.*;
+import org.wahlzeit.utils.MathUtil;
 
 /**
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
  */
 public class SphericCoordinate extends AbstractCoordinate {
+	protected static final ValueObjectRepository<SphericCoordinate> repository = new ValueObjectRepository<SphericCoordinate>();
+
 	/**
 	 * Radial distance
 	 */
-	private double radius;
+	protected final double radius;
 
 	/**
 	 * Polar angle
 	 */
-	private double theta;
+	protected final double theta;
 
 	/**
 	 * Azimuthal angle
 	 */
-	private double phi;
+	protected final double phi;
 
-	public SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
+	private SphericCoordinate(double radius, double theta, double phi) throws InvalidCoordinateException {
 		this.assertValidArguments(radius, theta, phi);
 
 		this.radius = radius;
@@ -55,6 +58,11 @@ public class SphericCoordinate extends AbstractCoordinate {
 	 */
 	public double getPhi() {
 		return this.phi;
+	}
+
+	public static SphericCoordinate create(double radius, double theta, double phi) throws InvalidCoordinateException {
+		SphericCoordinate coordinate = new SphericCoordinate(radius, theta, phi);
+		return repository.getOrPut(coordinate);
 	}
 
 	@Override
@@ -101,18 +109,18 @@ public class SphericCoordinate extends AbstractCoordinate {
 	@Override
 	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException, ArithmeticException {
 		if (this.radius == 0) {
-			return new CartesianCoordinate(0, 0, 0);
+			return CartesianCoordinate.create(0, 0, 0);
 		}
 
 		double x = this.radius * Math.sin(this.phi) * Math.cos(this.theta);
 		double y = this.radius * Math.sin(this.phi) * Math.sin(this.theta);
 		double z = this.radius * Math.cos(this.phi);
-		return new CartesianCoordinate(x, y, z);
+		return CartesianCoordinate.create(x, y, z);
 	}
 
 	@Override
 	protected SphericCoordinate doAsSphericCoordinate() throws InvalidCoordinateException {
-		return new SphericCoordinate(this.radius, this.theta, this.phi);
+		return this;
 	}
 
 	@Override
@@ -122,12 +130,10 @@ public class SphericCoordinate extends AbstractCoordinate {
 	}
 
 	private boolean isEqual(SphericCoordinate other) {
-		final double EPSILON = 0.0001;
-		double diffRadius = Math.abs(this.radius - other.radius);
-		double diffTheta = Math.abs(this.theta - other.theta);
-		double diffPhi = Math.abs(this.phi - other.phi);
-
-		return diffRadius < EPSILON && diffTheta < EPSILON && diffPhi < EPSILON;
+		double diffRadius = MathUtil.round(this.radius) - MathUtil.round(other.radius);
+		double diffTheta = MathUtil.round(this.theta) - MathUtil.round(other.theta);
+		double diffPhi = MathUtil.round(this.phi) - MathUtil.round(other.phi);
+		return diffRadius == 0 && diffTheta == 0 && diffPhi == 0;
 	}
 
 	public double getAngleTo(SphericCoordinate other) throws InvalidCoordinateException {
@@ -170,6 +176,6 @@ public class SphericCoordinate extends AbstractCoordinate {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.radius, this.theta, this.phi);
+		return Objects.hash(MathUtil.round(this.radius), MathUtil.round(this.theta), MathUtil.round(this.phi));
 	}
 }

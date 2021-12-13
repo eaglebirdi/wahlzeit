@@ -25,7 +25,7 @@ public class PhotoTest {
 	public void testLocationGetSet() throws InvalidCoordinateException {
 
 		Photo photo = new Photo();
-		Location location = new Location(new CartesianCoordinate(0.0, 0.0, 0.0));
+		Location location = new Location(CartesianCoordinate.create(0.0, 0.0, 0.0));
 		photo.setLocation(location);
 		assertSame(location, photo.getLocation());
 	}

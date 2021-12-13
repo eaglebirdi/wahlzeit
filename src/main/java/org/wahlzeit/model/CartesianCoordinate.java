@@ -4,16 +4,19 @@ import java.sql.*;
 import java.util.*;
 
 import org.wahlzeit.services.*;
+import org.wahlzeit.utils.MathUtil;
 
 /**
  * A cartesian coordinate represents a position which is defined by the three values x, y and z in an orthogonal coordinate system.
  */
 public class CartesianCoordinate extends AbstractCoordinate {
-	protected double x;
-	protected double y;
-	protected double z;
+	protected static final ValueObjectRepository<CartesianCoordinate> repository = new ValueObjectRepository<CartesianCoordinate>();
 
-	public CartesianCoordinate(double x, double y, double z) throws InvalidCoordinateException {
+	protected final double x;
+	protected final double y;
+	protected final double z;
+
+	private CartesianCoordinate(double x, double y, double z) throws InvalidCoordinateException {
 		this.assertValidArguments(x, y, z);
 
 		this.x = x;
@@ -47,6 +50,11 @@ public class CartesianCoordinate extends AbstractCoordinate {
 		return this.z;
 	}
 
+	public static CartesianCoordinate create(double x, double y, double z) throws InvalidCoordinateException {
+		CartesianCoordinate coordinate = new CartesianCoordinate(x, y, z);
+		return repository.getOrPut(coordinate);
+	}
+
 	@Override
 	protected void assertClassInvariants() throws InvalidCoordinateException {
 		String validationErrorMessage = getValidationErrorMessage(this.x, this.y, this.z);
@@ -77,8 +85,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	protected CartesianCoordinate doAsCartesianCoordinate() throws InvalidCoordinateException {
-		CartesianCoordinate cartesian = new CartesianCoordinate(this.x, this.y, this.z);
-		return cartesian;
+		return this;
 	}
 
 	@Override
@@ -94,7 +101,7 @@ public class CartesianCoordinate extends AbstractCoordinate {
 			theta = 0.0;
 			phi = 0.0;
 		}
-		return new SphericCoordinate(radius, theta, phi);
+		return SphericCoordinate.create(radius, theta, phi);
 	}
 
 	@Override
@@ -104,12 +111,10 @@ public class CartesianCoordinate extends AbstractCoordinate {
 	}
 
 	private boolean isEqual(CartesianCoordinate other) {
-		final double EPSILON = 0.0001;
-		double diffX = Math.abs(this.x - other.x);
-		double diffY = Math.abs(this.y - other.y);
-		double diffZ = Math.abs(this.z - other.z);
-
-		return diffX < EPSILON && diffY < EPSILON && diffZ < EPSILON;
+		double diffX = MathUtil.round(this.x) - MathUtil.round(other.x);
+		double diffY = MathUtil.round(this.y) - MathUtil.round(other.y);
+		double diffZ = MathUtil.round(this.z) - MathUtil.round(other.z);
+		return diffX == 0 && diffY == 0 && diffZ == 0;
 	}
 
 	/**
@@ -173,6 +178,6 @@ public class CartesianCoordinate extends AbstractCoordinate {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(this.x, this.y, this.z);
+		return Objects.hash(MathUtil.round(this.x), MathUtil.round(this.y),MathUtil.round(this.z));
 	}
 }

@@ -1,10 +1,11 @@
 package org.wahlzeit.model;
 
-import org.wahlzeit.testEnvironmentProvider.AssertionHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
@@ -20,9 +21,9 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testAsCartesianCoordinateNonZeroCoordinate() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
+		SphericCoordinate coordinate = SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		CartesianCoordinate cartesianActual = coordinate.asCartesianCoordinate();
-		CartesianCoordinate cartesianExpected = new CartesianCoordinate(0.5822798637, 0.6939341195, 3.380740392);
+		CartesianCoordinate cartesianExpected = CartesianCoordinate.create(0.5822798637, 0.6939341195, 3.380740392);
 		assertEquals(cartesianExpected, cartesianActual);
 	}
 
@@ -31,9 +32,9 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testAsCartesianCoordinateZeroCoordinate() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(0, 0, 0);
+		SphericCoordinate coordinate = SphericCoordinate.create(0, 0, 0);
 		CartesianCoordinate cartesianActual = coordinate.asCartesianCoordinate();
-		CartesianCoordinate cartesianExpected = new CartesianCoordinate(0, 0, 0);
+		CartesianCoordinate cartesianExpected = CartesianCoordinate.create(0, 0, 0);
 		assertEquals(cartesianExpected, cartesianActual);
 	}
 
@@ -42,9 +43,9 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testGetCartesianDistance() throws InvalidCoordinateException {
-		SphericCoordinate coordinate1 = new SphericCoordinate(1, 45.0/180*Math.PI, 15.0/180*Math.PI);
+		SphericCoordinate coordinate1 = SphericCoordinate.create(1, 45.0/180*Math.PI, 15.0/180*Math.PI);
 
-		SphericCoordinate coordinate2Spheric = new SphericCoordinate(2, 30.0/180*Math.PI, 60.0/180*Math.PI);
+		SphericCoordinate coordinate2Spheric = SphericCoordinate.create(2, 30.0/180*Math.PI, 60.0/180*Math.PI);
 		double result1 = coordinate1.getCartesianDistance(coordinate2Spheric);
 		assertEquals(1.483955169, result1, EPSILON);
 
@@ -58,10 +59,10 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testAsSphericCoordinate() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
+		SphericCoordinate coordinate = SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
 		SphericCoordinate result = coordinate.asSphericCoordinate();
 		assertEquals(coordinate, result);
-		assertNotSame(coordinate, result);
+		assertSame(coordinate, result);
 	}
 
 	/**
@@ -69,13 +70,13 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testGetAngleTo() throws InvalidCoordinateException {
-		SphericCoordinate sphericCoordinate1 = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
-		SphericCoordinate sphericCoordinate2 = new SphericCoordinate(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
+		SphericCoordinate sphericCoordinate1 = SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
+		SphericCoordinate sphericCoordinate2 = SphericCoordinate.create(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
 		double result1 = sphericCoordinate1.getAngleTo(sphericCoordinate2);
 		assertEquals(1.23370728859045, result1, EPSILON);
 
-		SphericCoordinate cartesianCoordinate1 = new CartesianCoordinate(0, 1, 1).asSphericCoordinate();
-		SphericCoordinate cartesianCoordinate2 = new CartesianCoordinate(0, 1, 0).asSphericCoordinate();
+		SphericCoordinate cartesianCoordinate1 = CartesianCoordinate.create(0, 1, 1).asSphericCoordinate();
+		SphericCoordinate cartesianCoordinate2 = CartesianCoordinate.create(0, 1, 0).asSphericCoordinate();
 		double result2 = cartesianCoordinate1.getAngleTo(cartesianCoordinate2);
 		assertEquals(Math.PI / 4, result2, EPSILON);
 	}
@@ -85,8 +86,8 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testIsEqual() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
-		SphericCoordinate other = new SphericCoordinate(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
+		SphericCoordinate coordinate = SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI);
+		SphericCoordinate other = SphericCoordinate.create(2.5, 20.0/180*Math.PI, 85.0/180*Math.PI);
 		assertTrue(coordinate.isEqual(coordinate));
 		assertTrue(coordinate.isEqual(coordinate.asSphericCoordinate()));
 		assertTrue(coordinate.isEqual(coordinate.asCartesianCoordinate()));
@@ -94,10 +95,10 @@ public class SphericCoordinateTest {
 		assertFalse(coordinate.isEqual(other.asSphericCoordinate()));
 		assertFalse(coordinate.isEqual(other.asCartesianCoordinate()));
 
-		assertTrue(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI)));
-		assertFalse(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0, 45.0/180*Math.PI, 150.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0 + SUBEPSILON, 45.0/180*Math.PI + SUBEPSILON, 120.0/180*Math.PI + SUBEPSILON)));
-		assertFalse(new SphericCoordinate(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(new SphericCoordinate(1.0 + EPSILON, 45.0/180*Math.PI + EPSILON, 120.0/180*Math.PI + EPSILON)));
+		assertTrue(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI)));
+		assertFalse(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 150.0/180*Math.PI)));
+		assertTrue(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(SphericCoordinate.create(1.00002, 1.00002 * 45.0/180*Math.PI, 1.00002 * 120.0/180*Math.PI)));
+		assertFalse(SphericCoordinate.create(1.0, 45.0/180*Math.PI, 120.0/180*Math.PI).isEqual(SphericCoordinate.create(1.0001, 1.0001 * 45.0/180*Math.PI, 1.0001 * 120.0/180*Math.PI + EPSILON)));
 	}
 
 	/**
@@ -105,11 +106,11 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testEquals() throws InvalidCoordinateException {
-		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(null));
-		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new Object()));
-		assertFalse(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI)));
-		assertTrue(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new SphericCoordinate(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).asCartesianCoordinate()));
+		assertFalse(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(null));
+		assertFalse(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(new Object()));
+		assertFalse(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 20.0/180*Math.PI)));
+		assertTrue(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI)));
+		assertTrue(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).equals(SphericCoordinate.create(3.5, 50.0/180*Math.PI, 15.0/180*Math.PI).asCartesianCoordinate()));
 	}
 
 	/**
@@ -117,7 +118,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsRadiusIsNaN() throws InvalidCoordinateException {
-		new SphericCoordinate(Double.NaN, Math.PI, Math.PI);
+		SphericCoordinate.create(Double.NaN, Math.PI, Math.PI);
 	}
 
 	/**
@@ -125,7 +126,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsRadiusIsNegative() throws InvalidCoordinateException {
-		new SphericCoordinate(-1, Math.PI, Math.PI);
+		SphericCoordinate.create(-1, Math.PI, Math.PI);
 	}
 
 	/**
@@ -133,7 +134,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsThetaIsNaN() throws InvalidCoordinateException {
-		new SphericCoordinate(1, Double.NaN, Math.PI);
+		SphericCoordinate.create(1, Double.NaN, Math.PI);
 	}
 
 	/**
@@ -141,7 +142,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsPhiIsNaN() throws InvalidCoordinateException {
-		new SphericCoordinate(1, Math.PI, Double.NaN);
+		SphericCoordinate.create(1, Math.PI, Double.NaN);
 	}
 
 	/**
@@ -149,7 +150,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsThetaIsTooBig() throws InvalidCoordinateException {
-		new SphericCoordinate(1, Math.PI + 0.01, Math.PI);
+		SphericCoordinate.create(1, Math.PI + 0.01, Math.PI);
 	}
 
 	/**
@@ -157,7 +158,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsPhiIsTooBig() throws InvalidCoordinateException {
-		new SphericCoordinate(1, Math.PI, Math.PI + 0.01);
+		SphericCoordinate.create(1, Math.PI, Math.PI + 0.01);
 	}
 
 	/**
@@ -165,7 +166,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsThetaIsTooSmall() throws InvalidCoordinateException {
-		new SphericCoordinate(1, -Math.PI - 0.01, Math.PI);
+		SphericCoordinate.create(1, -Math.PI - 0.01, Math.PI);
 	}
 
 	/**
@@ -173,7 +174,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsPhiIsTooSmall() throws InvalidCoordinateException {
-		new SphericCoordinate(1, Math.PI, -Math.PI - 0.01);
+		SphericCoordinate.create(1, Math.PI, -Math.PI - 0.01);
 	}
 
 	/**
@@ -181,7 +182,7 @@ public class SphericCoordinateTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testConstructorAssertionsThetaAndPhiAreBothZero() throws InvalidCoordinateException {
-		new SphericCoordinate(1, 0, 0);
+		SphericCoordinate.create(1, 0, 0);
 	}
 
 	/**
@@ -189,8 +190,8 @@ public class SphericCoordinateTest {
 	 */
 	@Test
 	public void testConstructorAssertionsValidArguments() throws InvalidCoordinateException {
-		new SphericCoordinate(0, 0, 0); // no exception is thrown
-		new SphericCoordinate(1, 2, 3); // no exception is thrown
+		SphericCoordinate.create(0, 0, 0); // no exception is thrown
+		SphericCoordinate.create(1, 2, 3); // no exception is thrown
 	}
 
 	/**
@@ -198,7 +199,7 @@ public class SphericCoordinateTest {
 	*/
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetAngleToAssertionsNullArgument() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
+		SphericCoordinate coordinate = SphericCoordinate.create(1, Math.PI, Math.PI);
 		coordinate.getAngleTo(null);
 	}
 
@@ -207,7 +208,23 @@ public class SphericCoordinateTest {
 	*/
 	@Test
 	public void testGetAngleToAssertionsValidArgument() throws InvalidCoordinateException {
-		SphericCoordinate coordinate = new SphericCoordinate(1, Math.PI, Math.PI);
+		SphericCoordinate coordinate = SphericCoordinate.create(1, Math.PI, Math.PI);
 		coordinate.getAngleTo(coordinate); // no exception is thrown
+	}
+
+	@Test
+	public void testCreateNearlyEqualAreSame() throws InvalidCoordinateException {
+		SphericCoordinate spheric1 = SphericCoordinate.create(1, Math.PI, 0.0);
+		SphericCoordinate spheric2 = SphericCoordinate.create(1.000049, Math.PI, 0.0);
+		assertEquals(spheric1, spheric2);
+		assertSame(spheric1, spheric2);
+	}
+
+	@Test
+	public void testCreateNotNearlyEqualAreNotSame() throws InvalidCoordinateException {
+		SphericCoordinate spheric1 = SphericCoordinate.create(1, Math.PI, 0.0);
+		SphericCoordinate spheric2 = SphericCoordinate.create(1.00005, Math.PI, 0.0);
+		assertNotEquals(spheric1, spheric2);
+		assertNotSame(spheric1, spheric2);
 	}
 }

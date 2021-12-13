@@ -160,7 +160,7 @@ public class Photo extends DataObject {
 			double coordinateY = rset.getDouble("coordinate_y");
 			double coordinateZ = rset.getDouble("coordinate_z");
 			try {
-				this.location = new Location(new CartesianCoordinate(coordinateX, coordinateY, coordinateZ));
+				this.location = new Location(CartesianCoordinate.create(coordinateX, coordinateY, coordinateZ));
 			} catch (InvalidCoordinateException ex) {
 				throw new InvalidPersistentObjectException("Coordinate cannot be read.", ex);
 			}
