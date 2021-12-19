@@ -5,7 +5,7 @@ import org.wahlzeit.services.DesignPattern;
 
 @DesignPattern(
 	name = "Abstract Factory",
-	participants = { "AbstractProduct", "ConcreteProduct" }
+	participants = { "ConcreteProduct" }
 )
 public class BicyclePhoto extends Photo {
 	protected String brandName;

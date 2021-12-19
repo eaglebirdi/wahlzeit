@@ -6,7 +6,7 @@ import org.wahlzeit.services.*;
 
 @DesignPattern(
 	name = "Abstract Factory",
-	participants = { "AbstractFactory", "ConcreteFactory" }
+	participants = { "ConcreteFactory" }
 )
 public class BicyclePhotoFactory extends PhotoFactory {
 	

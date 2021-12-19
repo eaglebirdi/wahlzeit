@@ -16,7 +16,7 @@ import org.wahlzeit.utils.*;
  */
 @DesignPattern(
 	name = "Abstract Factory",
-	participants = { "AbstractProduct", "ConcreteProduct" }
+	participants = { "AbstractProduct" }
 )
 public class Photo extends DataObject {
 

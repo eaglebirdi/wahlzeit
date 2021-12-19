@@ -14,7 +14,7 @@ import org.wahlzeit.services.*;
  */
 @DesignPattern(
 	name = "Abstract Factory",
-	participants = { "AbstractFactory", "ConcreteFactory" }
+	participants = { "AbstractFactory" }
 )
 public class PhotoFactory {
 	
