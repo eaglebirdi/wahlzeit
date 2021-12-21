@@ -1,6 +1,6 @@
 package org.wahlzeit.services;
 
-public @interface DesignPattern {
-	String name();
+public @interface PatternInstance {
+	String patternName();
 	String[] participants();
 }

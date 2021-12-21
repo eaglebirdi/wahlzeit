@@ -18,8 +18,8 @@ import org.wahlzeit.services.mailing.*;
  * @author dirkriehle
  *
  */
-@DesignPattern(
-	name = "Template Method",
+@PatternInstance(
+	patternName = "Template Method",
 	participants = { "ConcreteClass" }
 )
 public class NotifyAboutPraiseAgent extends Agent {

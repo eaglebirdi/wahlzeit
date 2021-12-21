@@ -7,15 +7,15 @@ package org.wahlzeit.services.mailing;
 
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.SysLog;
-import org.wahlzeit.services.DesignPattern;
+import org.wahlzeit.services.PatternInstance;
 
 /**
  * 
  * @author dirk
  *
  */
-@DesignPattern(
-	name = "Null Object",
+@PatternInstance(
+	patternName = "Null Object",
 	participants = { "NullObject" }
 )
 public class NullEmailService implements EmailService {

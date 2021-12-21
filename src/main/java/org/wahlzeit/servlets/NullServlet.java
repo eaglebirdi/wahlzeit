@@ -9,14 +9,14 @@ import java.io.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
-import org.wahlzeit.services.DesignPattern;
+import org.wahlzeit.services.PatternInstance;
 
 
 /**
  * A null servlet.
  */
-@DesignPattern(
-	name = "Null Object",
+@PatternInstance(
+	patternName = "Null Object",
 	participants = { "NullObject" }
 )
 public class NullServlet extends AbstractServlet {

@@ -10,8 +10,8 @@ import org.wahlzeit.services.*;
 /**
  * An Agent executes background tasks.
  */
-@DesignPattern(
-	name = "Template Method",
+@PatternInstance(
+	patternName = "Template Method",
 	participants = { "AbstractClass" }
 )
 public abstract class Agent implements Runnable {

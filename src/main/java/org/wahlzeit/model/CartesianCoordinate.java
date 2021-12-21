@@ -8,8 +8,8 @@ import org.wahlzeit.services.*;
 /**
  * A cartesian coordinate represents a position which is defined by the three values x, y and z in an orthogonal coordinate system.
  */
-@DesignPattern(
-	name = "Value Object",
+@PatternInstance(
+	patternName = "Value Object",
 	participants = { "ValueObject" }
 )
 public class CartesianCoordinate extends AbstractCoordinate {
