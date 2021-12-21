@@ -10,11 +10,16 @@ import javax.mail.Message;
 import org.wahlzeit.services.EmailAddress;
 import org.wahlzeit.services.SysLog;
 import org.wahlzeit.utils.StringUtil;
+import org.wahlzeit.services.PatternInstance;
 
 /**
  * Abstract superclass for non-trivial EmailServer implementations.
  * 
  */
+@PatternInstance(
+	patternName = "Template Method",
+	participants = { "AbstractClass" }
+)
 public abstract class AbstractEmailService implements EmailService {
 
 	/**

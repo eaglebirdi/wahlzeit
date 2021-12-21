@@ -4,6 +4,10 @@ import java.sql.*;
 
 import org.wahlzeit.services.*;
 
+@PatternInstance(
+	patternName = "Abstract Factory",
+	participants = { "ConcreteFactory" }
+)
 public class BicyclePhotoFactory extends PhotoFactory {
 	
 	/**

@@ -8,6 +8,10 @@ import org.wahlzeit.utils.MathUtil;
 /**
  * A spheric coordinate represents a position which is defined by a radial distance, a polar angle and an azimuthal angle.
  */
+@PatternInstance(
+	patternName = "Value Object",
+	participants = { "ValueObject" }
+)
 public class SphericCoordinate extends AbstractCoordinate {
 	protected static final ValueObjectRepository<SphericCoordinate> repository = new ValueObjectRepository<SphericCoordinate>();
 
