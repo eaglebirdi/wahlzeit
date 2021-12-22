@@ -14,6 +14,10 @@ import org.wahlzeit.services.*;
 /**
  * A Main class that runs a Wahlzeit web server.
  */
+@PatternInstance(
+	patternName = "Singleton",
+	participants = { "Singleton" }
+)
 public class ServiceMain extends ModelMain {
 	
 	/**
