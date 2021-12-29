@@ -81,6 +81,7 @@ public class BicycleManager extends ObjectManager {
 
 		ArrayList<Bicycle> bicycles = new ArrayList<Bicycle>();
 
+		// Retrieve all bicycles from the database
 		try {
 			PreparedStatement stmt = this.getReadingStatement("SELECT * FROM bicycles");
 			readObjects(bicycles, stmt);
@@ -90,6 +91,7 @@ public class BicycleManager extends ObjectManager {
 			SysLog.logThrowable(ex);
 		}
 
+		// Store all bicycles in the cache
 		for (Bicycle bicycle : bicycles) {
 			this.bicycleCache.put(bicycle.getId(), bicycle);
 		}
@@ -102,21 +104,42 @@ public class BicycleManager extends ObjectManager {
 			throw new IllegalStateException("Initialization must not be called, if cache is not empty.");
 		}
 
-		BicycleType onePersonBike = this.createAndCacheBicycleType(1, "One-person-bike");
-		onePersonBike.addSubType(this.createAndCacheBicycleType(11, "City bike"));
-		onePersonBike.addSubType(this.createAndCacheBicycleType(12, "Leisure bike"));
-		onePersonBike.addSubType(this.createAndCacheBicycleType(13, "Cargo bike"));
+		ArrayList<BicycleType> bicycleTypes = new ArrayList<BicycleType>();
 
-		BicycleType multiPersonBike = new BicycleType(2, "Multi-person bike");
-		multiPersonBike.addSubType(this.createAndCacheBicycleType(21, "Tandem"));
-		multiPersonBike.addSubType(this.createAndCacheBicycleType(22, "Sociable"));
+		// Retrieve all bicycle types from the database
+		try {
+			PreparedStatement stmt = this.getReadingStatement("SELECT * FROM bicycle_types");
+			this.readBicycleTypes(bicycleTypes, stmt);
+		} catch (SQLException ex) {
+			SysLog.logThrowable(ex);
+		} catch (InvalidPersistentObjectException ex) {
+			SysLog.logThrowable(ex);
+		}
 
-		this.createAndCacheBicycleType(3, "Other bike");
+		// Store all bicycle types in the cache
+		for (BicycleType bicycleType : bicycleTypes) {
+			this.bicycleTypeCache.put(bicycleType.getId(), bicycleType);
+		}
+
+		// Connect the bicycle types with the respective parents
+		for (BicycleType bicycleType : bicycleTypes) {
+			Integer superTypeId = bicycleType.getSuperTypeId();
+			if (superTypeId != null) {
+				BicycleType parent = this.bicycleTypeCache.get(superTypeId);
+				parent.addSubType(bicycleType);
+			}
+		}
 	}
 
-	private BicycleType createAndCacheBicycleType(int id, String name) {
-		BicycleType bicycleType = new BicycleType(id, name);
-		this.bicycleTypeCache.put(bicycleType.getId(), bicycleType);
-		return bicycleType;
+	/**
+	 * 
+	 */
+	protected void readBicycleTypes(Collection<BicycleType> result, PreparedStatement stmt) throws SQLException, InvalidPersistentObjectException {
+		SysLog.logQuery(stmt);
+		ResultSet rset = stmt.executeQuery();
+		while (rset.next()) {
+			BicycleType obj = new BicycleType(rset);
+			result.add(obj);
+		}
 	}
 }

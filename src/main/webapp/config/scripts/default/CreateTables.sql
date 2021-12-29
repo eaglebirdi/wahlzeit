@@ -15,9 +15,15 @@ CREATE TABLE users (
 	creation_time bigint
 );
 
+CREATE TABLE bicycle_types (
+	id integer PRIMARY KEY,
+	super_type_id integer REFERENCES bicycle_types(id),
+	bicycle_type_name text,
+);
+
 CREATE TABLE bicycles (
 	id integer PRIMARY KEY,
-	bicycle_type_id integer,
+	bicycle_type_id integer REFERENCES bicycle_types(id),
 	brand_name text,
 	model_name text
 );
