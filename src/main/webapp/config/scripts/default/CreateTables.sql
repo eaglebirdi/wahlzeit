@@ -15,6 +15,13 @@ CREATE TABLE users (
 	creation_time bigint
 );
 
+CREATE TABLE bicycles (
+	id integer PRIMARY KEY,
+	bicycle_type_id integer,
+	brand_name text,
+	model_name text
+);
+
 CREATE TABLE photos (
 	id integer PRIMARY KEY,
 	owner_id integer REFERENCES users(id),
@@ -33,7 +40,7 @@ CREATE TABLE photos (
 	coordinate_x double precision,
 	coordinate_y double precision,
 	coordinate_z double precision,
-	brand_name text
+	bicyle_id integer REFERENCES bicycles(id)
 );
 
 CREATE TABLE tags (

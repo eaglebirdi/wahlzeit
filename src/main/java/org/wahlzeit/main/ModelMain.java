@@ -33,6 +33,7 @@ public abstract class ModelMain extends AbstractMain {
 
 		PhotoFactory.initialize();
 		BicyclePhotoFactory.initialize();
+		BicycleManager.initialize();
 	}
 	
 	/**
