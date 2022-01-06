@@ -9,6 +9,9 @@ public class Bicycle extends DataObject {
 	protected String brandName;
 	protected String modelName;
 
+	public Bicycle() {
+	}
+
 	public Bicycle(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		this.readFrom(rset);
 	}

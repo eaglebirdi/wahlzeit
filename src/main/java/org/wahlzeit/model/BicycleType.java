@@ -11,6 +11,11 @@ public class BicycleType extends DataObject {
 	protected BicycleType superType;
 	protected Set<BicycleType> subTypes = new HashSet<BicycleType>();
 
+	public BicycleType(int id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	public BicycleType(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		this.readFrom(rset);
 	}
