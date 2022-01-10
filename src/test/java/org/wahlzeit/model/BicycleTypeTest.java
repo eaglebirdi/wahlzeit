@@ -139,4 +139,14 @@ public class BicycleTypeTest {
 		boolean result = subtype2.hasInstance(bicycle);
 		assertFalse(result);
 	}
+
+	@Test
+	public void isSubType() {
+		BicycleType supertype = new BicycleType(1, "super");
+		BicycleType subtype = new BicycleType(2, "sub");
+		supertype.addSubType(subtype);
+
+		assertFalse(supertype.isSubtype());
+		assertTrue(subtype.isSubtype());
+	}
 }
