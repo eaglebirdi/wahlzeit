@@ -8,7 +8,7 @@ import org.wahlzeit.services.PatternInstance;
 	participants = { "ConcreteProduct" }
 )
 public class BicyclePhoto extends Photo {
-	protected String brandName;
+	protected Bicycle bicycle;
 
 	/**
 	 * @methodtype constructor
@@ -37,16 +37,16 @@ public class BicyclePhoto extends Photo {
 	 * 
 	 * @methodtype get
 	 */
-	public String getBrandName() {
-		return this.brandName;
+	public Bicycle getBicycle() {
+		return this.bicycle;
 	}
 
 	/**
 	 * 
 	 * @methodtype set
 	 */
-	public void setBrandName(String brandName) {
-		this.brandName = brandName;
+	public void setBicycle(Bicycle bicycle) {
+		this.bicycle = bicycle;
 	}
 
 	/**
@@ -55,7 +55,11 @@ public class BicyclePhoto extends Photo {
 	@Override	
 	public void writeOn(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		super.writeOn(rset);
-		rset.updateString("brand_name", this.brandName);
+		if (this.bicycle == null) {
+			rset.updateNull("bicycle_id");
+		} else {
+			rset.updateInt("bicycle_id", this.bicycle.getId());
+		}
 	}
 
 	/**
@@ -64,6 +68,11 @@ public class BicyclePhoto extends Photo {
 	@Override	
 	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
 		super.readFrom(rset);
-		this.brandName = rset.getString("brand_name");
+		int bicycle_id = rset.getInt("bicycle_id");
+		if (rset.wasNull()) {
+			this.bicycle = null;
+		} else {
+			this.bicycle = BicycleManager.getInstance().getBicycle(bicycle_id);
+		}
 	}
 }
