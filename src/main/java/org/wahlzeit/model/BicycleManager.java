@@ -40,7 +40,7 @@ public class BicycleManager extends ObjectManager {
 	public static void initialize() {
 		BicycleManager manager = getInstance();
 		manager.initializeBicycleTypes();
-		manager.initializeBicycles();
+		manager.initializeBicycles(); // [adap-cw11]: Creation of Bicycle (02)
 	}
 
 
@@ -60,7 +60,7 @@ public class BicycleManager extends ObjectManager {
 
 	@Override
 	protected Bicycle createObject(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
-		Bicycle bicycle = new Bicycle(rset);
+		Bicycle bicycle = new Bicycle(rset); // [adap-cw11]: Creation of Bicycle (05)
 		return bicycle;
 	}
 
@@ -84,7 +84,7 @@ public class BicycleManager extends ObjectManager {
 		// Retrieve all bicycles from the database
 		try {
 			PreparedStatement stmt = this.getReadingStatement("SELECT * FROM bicycles");
-			readObjects(bicycles, stmt);
+			readObjects(bicycles, stmt); // [adap-cw11]: Creation of Bicycle (03)
 		} catch (SQLException ex) {
 			SysLog.logThrowable(ex);
 		} catch (InvalidPersistentObjectException ex) {

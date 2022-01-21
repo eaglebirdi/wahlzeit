@@ -41,7 +41,7 @@ public class ShowPhotoPageHandler extends AbstractWebPageHandler implements WebF
 		if (photo == null) {
 			PhotoManager photoManager = PhotoManager.getInstance();
 			PhotoFilter filter = us.getPhotoFilter();
-			photo = photoManager.getVisiblePhoto(filter);
+			photo = photoManager.getVisiblePhoto(filter); // [adap-cw11]: Creation of BicyclePhoto (01)
 			if (photo != null) {
 				link = photo.getId().asString();
 			}

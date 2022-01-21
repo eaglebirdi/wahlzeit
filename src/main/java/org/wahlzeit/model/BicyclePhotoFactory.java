@@ -73,6 +73,6 @@ public class BicyclePhotoFactory extends PhotoFactory {
 	 */
 	@Override
 	public BicyclePhoto createPhoto(ResultSet rs) throws SQLException, InvalidPersistentObjectException {
-		return new BicyclePhoto(rs);
+		return new BicyclePhoto(rs); // [adap-cw11]: Creation of BicyclePhoto (07)
 	}
 }

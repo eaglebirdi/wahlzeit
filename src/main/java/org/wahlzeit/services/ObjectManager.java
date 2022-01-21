@@ -49,7 +49,7 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		if (rset.next()) {
-			result = createObject(rset);
+			result = createObject(rset); // [adap-cw11]: Creation of BicyclePhoto (05)
 		}
 
 		return result;
@@ -77,7 +77,7 @@ public abstract class ObjectManager {
 		SysLog.logQuery(stmt);
 		ResultSet rset = stmt.executeQuery();
 		while (rset.next()) {
-			Persistent obj = createObject(rset);
+			Persistent obj = createObject(rset); // [adap-cw11]: Creation of Bicycle (04)
 			result.add(obj);
 		}
 	}

@@ -13,7 +13,7 @@ public class Bicycle extends DataObject {
 	}
 
 	public Bicycle(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
-		this.readFrom(rset);
+		this.readFrom(rset); // [adap-cw11]: Creation of Bicycle (06)
 	}
 
 	public int getId() {
@@ -54,7 +54,7 @@ public class Bicycle extends DataObject {
 	}
 
 	@Override
-	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
+	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException { // [adap-cw11]: Creation of Bicycle (07)
 		this.id = rset.getInt("id");
 		this.bicycleType = BicycleManager.getInstance().getBicycleType(rset.getInt("bicycle_type_id"));
 		this.brandName = rset.getString("brand_name");

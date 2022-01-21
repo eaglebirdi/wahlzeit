@@ -30,7 +30,7 @@ public class BicyclePhoto extends Photo {
 	 * @methodtype constructor
 	 */
 	public BicyclePhoto(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
-		super(rset);
+		super(rset); // [adap-cw11]: Creation of BicyclePhoto (08)
 	}
 
 	/**

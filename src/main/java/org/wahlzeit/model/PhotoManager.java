@@ -99,7 +99,7 @@ public class PhotoManager extends ObjectManager {
 		if (result == null) {
 			try {
 				PreparedStatement stmt = getReadingStatement("SELECT * FROM photos WHERE id = ?");
-				result = (Photo) readObject(stmt, id.asInt());
+				result = (Photo) readObject(stmt, id.asInt()); // [adap-cw11]: Creation of BicyclePhoto (04)
 			} catch (SQLException sex) {
 				SysLog.logThrowable(sex);
 			} catch (InvalidPersistentObjectException ex) {
@@ -235,7 +235,7 @@ public class PhotoManager extends ObjectManager {
 	 * 
 	 */
 	public Photo getVisiblePhoto(PhotoFilter filter) {
-		Photo result = getPhotoFromFilter(filter);
+		Photo result = getPhotoFromFilter(filter); // [adap-cw11]: Creation of BicyclePhoto (02)
 		
 		if(result == null) {
 			java.util.List<PhotoId> list = getFilteredPhotoIds(filter);
@@ -251,7 +251,7 @@ public class PhotoManager extends ObjectManager {
 	 */
 	protected Photo getPhotoFromFilter(PhotoFilter filter) {
 		PhotoId id = filter.getRandomDisplayablePhotoId();
-		Photo result = getPhotoFromId(id);
+		Photo result = getPhotoFromId(id); // [adap-cw11]: Creation of BicyclePhoto (03)
 		while((result != null) && !result.isVisible()) {
 			id = filter.getRandomDisplayablePhotoId();
 			result = getPhotoFromId(id);

@@ -121,7 +121,7 @@ public class Photo extends DataObject {
 	 * @methodtype constructor
 	 */
 	public Photo(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
-		readFrom(rset);
+		readFrom(rset); // [adap-cw11]: Creation of BicyclePhoto (09)
 	}
 
 	/**
@@ -135,7 +135,7 @@ public class Photo extends DataObject {
 	/**
 	 * 
 	 */
-	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException {
+	public void readFrom(ResultSet rset) throws SQLException, InvalidPersistentObjectException { // [adap-cw11]: Creation of BicyclePhoto (10)
 		id = PhotoId.getIdFromInt(rset.getInt("id"));
 
 		ownerId = rset.getInt("owner_id");
