@@ -45,6 +45,24 @@ public class BicycleType extends DataObject {
 		return this.superType != null;
 	}
 
+	public boolean isSubtypeOf(BicycleType type) {
+		if (type == null) {
+			throw new IllegalArgumentException("type must not be null.");
+		}
+
+		if (this == type) {
+			return true;
+		}
+
+		for (BicycleType subType : type.subTypes) {
+			if (this.isSubtypeOf(subType)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public Integer getSuperTypeId() {
 		return this.superTypeId;
 	}

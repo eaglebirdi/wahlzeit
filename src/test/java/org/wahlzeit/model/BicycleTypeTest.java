@@ -149,4 +149,40 @@ public class BicycleTypeTest {
 		assertFalse(supertype.isSubtype());
 		assertTrue(subtype.isSubtype());
 	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void isSubTypeOfpassNull() {
+		BicycleType type = new BicycleType(1, "");
+		type.isSubtypeOf(null);
+	}
+
+	@Test
+	public void isSubTypeOf() {
+		BicycleType supertype = new BicycleType(1, "super");
+		BicycleType other = new BicycleType(9, "other");
+		BicycleType subtypeLevel1 = new BicycleType(2, "subtypeLevel1");
+		BicycleType subtypeLevel2 = new BicycleType(3, "subtypeLevel2");
+		supertype.addSubType(subtypeLevel1);
+		subtypeLevel1.addSubType(subtypeLevel2);
+
+		assertTrue(supertype.isSubtypeOf(supertype));
+		assertFalse(supertype.isSubtypeOf(subtypeLevel1));
+		assertFalse(supertype.isSubtypeOf(subtypeLevel2));
+		assertFalse(supertype.isSubtypeOf(other));
+
+		assertTrue(subtypeLevel1.isSubtypeOf(supertype));
+		assertTrue(subtypeLevel1.isSubtypeOf(subtypeLevel1));
+		assertFalse(subtypeLevel1.isSubtypeOf(subtypeLevel2));
+		assertFalse(subtypeLevel1.isSubtypeOf(other));
+
+		assertTrue(subtypeLevel2.isSubtypeOf(supertype));
+		assertTrue(subtypeLevel2.isSubtypeOf(subtypeLevel1));
+		assertTrue(subtypeLevel2.isSubtypeOf(subtypeLevel2));
+		assertFalse(subtypeLevel2.isSubtypeOf(other));
+
+		assertFalse(other.isSubtypeOf(supertype));
+		assertFalse(other.isSubtypeOf(subtypeLevel1));
+		assertFalse(other.isSubtypeOf(subtypeLevel2));
+		assertTrue(other.isSubtypeOf(other));
+	}
 }
